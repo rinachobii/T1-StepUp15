@@ -1,0 +1,991 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Step Up 15+</title>
+<style>
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Regular.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Medium.woff2) format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-SemiBold.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Bold.woff2) format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-ExtraBold.woff2) format('woff2');font-weight:800;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Black.woff2) format('woff2');font-weight:900;font-display:swap}
+:root{
+  --blue:#0b5ed7; --black:#17181c; --red:#e0144c; --yellow:#f5a623; --green:#00a05a;
+  --ink:#17181c; --muted:#767d8c; --line:#e8ecf3; --bg:#f6f8fc; --card:#fff;
+  --r:20px; --sh:0 2px 4px rgba(20,30,60,.04),0 12px 30px rgba(20,30,60,.07);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:Metropolis,-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,select,input{font:inherit}
+h1,h2,h3{margin:0;letter-spacing:-.02em}
+
+/* HERO */
+.hero{position:relative;overflow:hidden;background:linear-gradient(160deg,#2b3fd4 0%,#3a63e8 55%,#4f7bf0 100%);color:#fff;padding:34px 22px 92px;text-align:center}
+.hero svg.ribbon{position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);width:min(920px,150%);height:auto}
+.hero .inner{position:relative;z-index:2}
+.brandline{display:inline-flex;align-items:center;gap:9px;font-size:11px;font-weight:700;letter-spacing:.22em;text-transform:uppercase;color:#ffd978;margin-bottom:12px}
+.brandline i{display:block;width:26px;height:1.5px;background:#ffd978}
+.hero h1{font-size:clamp(34px,8vw,58px);font-weight:900;line-height:1}
+.hero h1 b{color:#ffd978}
+.hero p{margin:12px auto 0;max-width:470px;font-size:15px;color:#d8e2ff;font-weight:400}
+.rings{display:flex;justify-content:center;margin-top:20px}
+.rings i{display:block;width:26px;height:26px;border-radius:50%;border:4px solid;margin-right:-7px}
+.langsw{position:absolute;top:18px;right:18px;z-index:3;display:flex;background:rgba(255,255,255,.14);border:1px solid rgba(255,255,255,.26);border-radius:999px;padding:3px}
+.langsw button{border:0;background:none;color:#cdd9ff;font-size:12px;font-weight:800;letter-spacing:.06em;padding:6px 13px;border-radius:999px;cursor:pointer;transition:.18s}
+.langsw button.on{background:#fff;color:#2b3fd4}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:60;margin:-56px auto 0;max-width:1120px;padding:0 16px}
+.nbar{background:#fff;border-radius:999px;box-shadow:0 8px 28px rgba(20,30,60,.14);padding:7px;display:flex;gap:4px;overflow-x:auto;scrollbar-width:none}
+.nbar::-webkit-scrollbar{display:none}
+.tab{flex:1;min-width:max-content;border:0;background:none;cursor:pointer;border-radius:999px;padding:11px 18px;font-size:14.5px;font-weight:700;color:var(--muted);white-space:nowrap;transition:.2s}
+.tab:hover{color:var(--ink)}
+.tab.on{background:var(--ink);color:#fff}
+main{max-width:1120px;margin:0 auto;padding:22px 16px 90px}
+.page{display:none;animation:up .3s cubic-bezier(.2,.7,.3,1) both}
+.page.on{display:block}
+@keyframes up{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}
+.sec-h{display:flex;align-items:baseline;gap:10px;margin:28px 0 13px;flex-wrap:wrap}
+.sec-h h2{font-size:19px;font-weight:800}
+.sec-h span{font-size:13px;color:var(--muted)}
+.syncbar{display:flex;align-items:center;gap:10px;justify-content:center;margin:14px 0 4px;font-size:12.5px;font-weight:600;color:var(--muted);flex-wrap:wrap}
+.syncbar .dotx{width:8px;height:8px;border-radius:50%;background:#c3cad8}
+.syncbar.cloud .dotx{background:var(--green);box-shadow:0 0 0 4px rgba(0,160,90,.15)}
+.syncbar.err .dotx{background:var(--red)}
+.syncbar button{border:0;background:#eef1f7;color:var(--ink);font-size:12px;font-weight:700;border-radius:999px;padding:5px 12px;cursor:pointer}
+
+/* KPI */
+.kpis{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr))}
+.kpi{border-radius:var(--r);padding:18px 20px;color:#fff;position:relative;overflow:hidden}
+.kpi b{display:block;font-size:30px;font-weight:900;line-height:1.1;letter-spacing:-.03em}
+.kpi em{font-style:normal;font-size:12.5px;font-weight:600;opacity:.88}
+.kpi::after{content:"";position:absolute;right:-26px;top:-26px;width:90px;height:90px;border-radius:50%;border:9px solid rgba(255,255,255,.18)}
+.k1{background:linear-gradient(135deg,#0b5ed7,#3a7bea)}
+.k2{background:linear-gradient(135deg,#00a05a,#35c184)}
+.k3{background:linear-gradient(135deg,#e0144c,#f2577f)}
+.k4{background:linear-gradient(135deg,#f5a623,#ffc55e);color:#4a3000}
+.k4::after{border-color:rgba(255,255,255,.4)}
+
+/* ---------- PODIUM ---------- */
+.podwrap{position:relative;border-radius:26px;padding:26px 20px 22px;margin-bottom:16px;overflow:hidden;
+  background:radial-gradient(120% 120% at 50% 0%,#24306b 0%,#141a3c 55%,#0d1129 100%)}
+.confetti{position:absolute;inset:0;pointer-events:none;overflow:hidden}
+.confetti i{position:absolute;width:7px;height:11px;border-radius:2px;opacity:.75;animation:fall linear infinite}
+@keyframes fall{0%{transform:translateY(-30px) rotate(0)}100%{transform:translateY(320px) rotate(420deg)}}
+.podtitle{position:relative;text-align:center;color:#ffd978;font-size:11px;font-weight:800;letter-spacing:.24em;text-transform:uppercase;margin-bottom:20px}
+.podium{position:relative;display:grid;grid-template-columns:1fr 1.18fr 1fr;gap:10px;align-items:end;max-width:760px;margin:0 auto}
+.pod{border-radius:22px 22px 14px 14px;padding:16px 12px 16px;text-align:center;color:#fff;position:relative;overflow:hidden;cursor:pointer;border:0;font-family:inherit;transition:.2s}
+.pod:hover{transform:translateY(-4px)}
+.pod .no{position:absolute;left:50%;bottom:-26px;transform:translateX(-50%);font-size:132px;font-weight:900;line-height:1;color:rgba(255,255,255,.22);letter-spacing:-.05em;pointer-events:none}
+.pod .av{position:relative;width:70px;height:70px;border-radius:50%;margin:0 auto 10px;display:flex;align-items:center;justify-content:center;font-size:24px;font-weight:900;background:rgba(255,255,255,.18);border:3px solid rgba(255,255,255,.55)}
+.pod .nm{position:relative;font-size:14px;font-weight:800;line-height:1.2}
+.pod .sc{position:relative;font-size:24px;font-weight:900;margin-top:4px;letter-spacing:-.02em}
+.pod .su{position:relative;font-size:11px;font-weight:600;opacity:.75}
+.pod .crown{position:absolute;top:-2px;left:50%;transform:translateX(-50%);font-size:22px}
+.pod1{background:linear-gradient(165deg,#2e7df5,#0b4fc0);min-height:232px;padding-top:28px;box-shadow:0 14px 34px rgba(11,94,215,.45)}
+.pod2{background:linear-gradient(165deg,#5b6577,#2b3140);min-height:196px}
+.pod3{background:linear-gradient(165deg,#f2577f,#c0103f);min-height:182px}
+.pod .pill{background:rgba(255,255,255,.18);color:#fff}
+
+/* RANK CARDS */
+.lbgrid{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr);gap:8px;overflow-x:auto;padding-bottom:4px;scrollbar-width:thin}
+.lbc{background:#fff;border-radius:14px;box-shadow:var(--sh);padding:10px 11px;cursor:pointer;border:1.5px solid transparent;
+  transition:.18s;text-align:left;font-family:inherit;display:flex;flex-direction:column;gap:7px;min-width:104px}
+.lbc:hover{transform:translateY(-2px);box-shadow:0 8px 22px rgba(20,30,60,.12)}
+.lbc.me{border-color:var(--blue);background:#f6f9ff}
+.lbtop{display:flex;align-items:center;gap:7px}
+.lbrank{font-size:13px;font-weight:900;color:#c3cad8;letter-spacing:-.03em;min-width:14px}
+.lbc.me .lbrank{color:var(--blue)}
+.av2{width:26px;height:26px;border-radius:50%;flex:none;display:flex;align-items:center;justify-content:center;font-weight:900;font-size:10.5px;color:#fff}
+.lbname{font-size:12.5px;font-weight:800;line-height:1.2;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lbsc{display:flex;align-items:baseline;gap:3px}
+.lbsc b{font-size:17px;font-weight:900;letter-spacing:-.03em;line-height:1}
+.lbsc span{font-size:10px;font-weight:600;color:var(--muted)}
+.rbar{height:5px;border-radius:99px;background:#eef1f7;overflow:hidden}
+.rbar i{display:block;height:100%;border-radius:99px}
+@media (max-width:640px){.lbc{min-width:118px}.lbname{font-size:11.5px;white-space:normal;min-height:28px}}
+
+/* CARDS */
+.panel{background:var(--card);border-radius:var(--r);box-shadow:var(--sh);padding:22px;margin-bottom:16px}
+.panel.entry{margin-top:34px;padding:28px 24px 24px;border-radius:24px;position:relative;overflow:hidden;
+  background:linear-gradient(180deg,#fffdf7 0%,#fff 58%);box-shadow:0 4px 10px rgba(245,166,35,.1),0 16px 44px rgba(20,30,60,.12)}
+.panel.entry::before{content:"";position:absolute;left:0;right:0;top:0;height:6px;
+  background:linear-gradient(90deg,var(--blue) 0%,var(--black) 25%,var(--red) 50%,var(--yellow) 75%,var(--green) 100%)}
+.panel.entry>h3{font-size:22px;font-weight:900;letter-spacing:-.03em}
+.panel.entry>h3+p{font-size:13.5px;margin-bottom:20px}
+.panel.entry .btn-go{padding:16px 24px;font-size:16px;border-radius:15px;box-shadow:0 6px 18px rgba(245,166,35,.35)}
+.panel.entry .fld input,.panel.entry .fld select{border-width:2px}
+@media (max-width:620px){.panel.entry{margin-top:26px;padding:22px 17px 18px}.panel.entry>h3{font-size:19px}}
+.panel>h3{font-size:16px;font-weight:800;margin-bottom:4px}
+.panel>h3+p{margin:0 0 16px;font-size:13px;color:var(--muted)}
+.pill{font-size:11.5px;font-weight:700;border-radius:999px;padding:4px 10px;background:#f1f4f9;color:var(--muted);display:inline-block}
+.pill.win{background:#e4f7ee;color:var(--green)}
+.pill.b{background:#e7f0ff;color:var(--blue)}
+.pill.y{background:#fff3df;color:#9a6508}
+.pill.r{background:#fdeaf0;color:var(--red)}
+
+/* MEMBER HERO */
+.mhero{background:#fff;border:2px solid var(--blue);border-radius:22px;padding:18px 20px;display:flex;flex-wrap:wrap;gap:18px;
+  align-items:center;justify-content:space-between;margin-bottom:18px;box-shadow:0 4px 10px rgba(11,94,215,.08),0 14px 34px rgba(11,94,215,.12)}
+.mhero .pick{display:flex;flex-direction:column;gap:6px;min-width:250px;flex:1}
+.mhero label{font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:var(--blue)}
+.mhero select{background:#eef4ff;color:var(--ink);border:2px solid #c9ddff;border-radius:14px;padding:13px 40px 13px 15px;font-weight:800;font-size:16px;width:100%;appearance:none;cursor:pointer;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%230b5ed7' stroke-width='2.4' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 15px center}
+.mhero select:hover{border-color:var(--blue)}
+.mhero select:focus{outline:none;border-color:var(--blue);box-shadow:0 0 0 3px rgba(11,94,215,.16)}
+.mstat{display:flex;gap:10px;flex-wrap:wrap}
+.mstat div{background:#f6f8fc;border-radius:14px;padding:10px 16px;min-width:92px;text-align:center}
+.mstat div:first-child{background:#eef4ff}
+.mstat div b{display:block;font-size:26px;font-weight:900;line-height:1.1;letter-spacing:-.03em;color:var(--blue)}
+.mstat div:nth-child(2) b{color:var(--yellow)}
+.mstat div:nth-child(3) b{color:var(--ink)}
+.mstat div span{font-size:10.5px;color:var(--muted);font-weight:700;letter-spacing:.05em}
+
+/* SPORTS */
+.sports{display:grid;gap:10px;grid-template-columns:repeat(auto-fit,minmax(118px,1fr));margin-bottom:18px}
+.sp{border:2px solid var(--line);background:#fff;border-radius:16px;padding:14px 8px;cursor:pointer;text-align:center;transition:.18s;font-weight:700;font-size:13px;color:var(--muted);font-family:inherit}
+.sp em{display:block;font-size:26px;font-style:normal;line-height:1;margin-bottom:7px;filter:grayscale(.45);transition:.18s}
+.sp:hover{border-color:#cbd5e6}
+.sp.on{color:#fff;border-color:transparent;transform:translateY(-2px);box-shadow:0 8px 20px rgba(20,30,60,.16)}
+.sp.on em{filter:none}
+.sp[data-c=blue].on{background:var(--blue)} .sp[data-c=red].on{background:var(--red)}
+.sp[data-c=yellow].on{background:var(--yellow);color:#4a3000} .sp[data-c=green].on{background:var(--green)}
+.sp[data-c=black].on{background:var(--black)}
+
+/* FORM */
+.frow{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));align-items:end}
+.fld{display:flex;flex-direction:column;gap:6px;min-width:0}
+.fld label{font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.fld input,.fld select{border:2px solid var(--line);border-radius:13px;padding:11px 13px;font-size:15px;font-weight:600;background:#fff;color:var(--ink);width:100%;transition:.15s;font-family:inherit}
+.fld select{appearance:none;padding-right:36px;cursor:pointer;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='12' height='8'><path d='M1 1l5 5 5-5' fill='none' stroke='%23767d8c' stroke-width='2' stroke-linecap='round'/></svg>");background-repeat:no-repeat;background-position:right 13px center}
+.fld input:focus,.fld select:focus{outline:none;border-color:var(--blue)}
+.btn{border:0;border-radius:13px;padding:13px 24px;font-size:14.5px;font-weight:800;cursor:pointer;transition:.18s;white-space:nowrap;font-family:inherit}
+.btn-main{background:var(--ink);color:#fff}
+.btn-main:hover{background:#000;transform:translateY(-1px)}
+.btn-go{background:var(--yellow);color:#4a3000}
+.btn-go:hover{filter:brightness(1.05);transform:translateY(-1px)}
+.btn-o{background:#fff;color:var(--ink);border:2px solid var(--line)}
+.btn-o:hover{border-color:var(--ink)}
+.btn-full{width:100%}
+.btn[disabled]{opacity:.55;cursor:wait}
+.tip{margin-top:14px;font-size:13px;color:var(--muted);background:#f1f4f9;border-radius:13px;padding:11px 15px}
+
+/* PROGRESS */
+.pgrid{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(230px,1fr))}
+.pbox{border-radius:18px;padding:16px 18px;background:#f8fafd;border:1px solid var(--line)}
+.pbox .t{display:flex;justify-content:space-between;align-items:baseline;gap:8px}
+.pbox .t b{font-size:21px;font-weight:900}
+.pbox .t span{font-size:12.5px;font-weight:700;color:var(--muted)}
+.lvbar{display:flex;gap:4px;margin:11px 0 7px}
+.lvbar i{flex:1;height:7px;border-radius:99px;background:#e3e8f1}
+.lvbar i.on{background:currentColor}
+.pbox small{font-size:12px;color:var(--muted)}
+.c-blue{color:var(--blue)} .c-red{color:var(--red)} .c-yellow{color:var(--yellow)} .c-green{color:var(--green)} .c-black{color:var(--black)}
+
+/* LOG */
+.log{display:flex;flex-direction:column;gap:8px}
+.item{display:flex;align-items:center;gap:12px;padding:12px 15px;border-radius:15px;background:#f8fafd;border:1px solid var(--line);flex-wrap:wrap}
+.item .dot{width:11px;height:11px;border-radius:50%;flex:none;background:currentColor}
+.item .main{flex:1;min-width:120px}
+.item .main b{font-size:14px;font-weight:700;display:block}
+.item .main span{font-size:12.5px;color:var(--muted)}
+.item .val{font-weight:800;font-size:14.5px;white-space:nowrap}
+.item select{border:1.5px solid var(--line);border-radius:10px;padding:5px 9px;font-size:12px;font-weight:700;background:#fff;cursor:pointer;font-family:inherit}
+.iconbtn{border:0;background:none;cursor:pointer;color:#aab2c2;font-size:15px;line-height:1;padding:5px 3px;border-radius:7px}
+.iconbtn:hover{color:var(--ink);background:#eef1f7}
+.iconbtn.dl:hover{color:var(--red)}
+.editbox{width:100%;border-top:1px dashed var(--line);margin-top:10px;padding-top:12px}
+.empty{text-align:center;padding:38px 16px;color:var(--muted);font-size:14px}
+.empty em{display:block;font-size:40px;font-style:normal;margin-bottom:10px;opacity:.45}
+
+/* VIRAL */
+.flow{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
+.fstep{border-radius:18px;padding:17px 18px;background:#f8fafd;border:1px solid var(--line);position:relative}
+.fstep .n{width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
+.fstep b{display:block;font-size:14.5px;margin-bottom:3px}
+.fstep p{margin:0;font-size:12.5px;color:var(--muted)}
+.fstep.hot{background:#fff3df;border-color:#f6ddb0}
+.fstep.hot .n{background:var(--yellow);color:#4a3000}
+.pubchips{display:flex;gap:7px;flex-wrap:wrap;margin-top:9px}
+.pubchip{background:#fff;border:1.5px solid #f0dcb3;border-radius:999px;padding:4px 11px;font-size:12px;font-weight:700;color:#9a6508}
+
+/* RULES */
+.ladder{display:flex;flex-direction:column;gap:7px}
+.lv{display:flex;align-items:center;gap:12px;padding:11px 15px;border-radius:14px;background:#f8fafd}
+.lv b{width:42px;font-weight:900;font-size:14px}
+.lv .need{flex:1;font-size:13.5px;color:var(--muted);font-weight:600}
+.lv .pt{font-weight:900;font-size:15px}
+.two{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(290px,1fr))}
+.rule{display:flex;gap:13px;align-items:flex-start;padding:13px 0;border-top:1px solid var(--line)}
+.rule:first-child{border-top:0;padding-top:0}
+.rule em{font-style:normal;font-size:22px;line-height:1.1;flex:none}
+.rule b{display:block;font-size:14.5px}
+.rule p{margin:2px 0 0;font-size:13px;color:var(--muted);word-break:break-word}
+.prize{display:flex;align-items:center;gap:13px;padding:12px 0;border-top:1px solid var(--line)}
+.prize:first-child{border-top:0}
+.prize .m{font-weight:900;font-size:13.5px;border-radius:11px;padding:7px 12px;white-space:nowrap;min-width:104px;text-align:center}
+.prize b{display:block;font-size:14.5px}
+.prize p{margin:1px 0 0;font-size:12.5px;color:var(--muted)}
+.bg-blue{background:#e7f0ff;color:var(--blue)} .bg-green{background:#e4f7ee;color:var(--green)}
+.bg-yellow{background:#fff3df;color:#9a6508} .bg-red{background:#fdeaf0;color:var(--red)} .bg-black{background:#eceef3;color:var(--black)}
+
+#toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);z-index:200;background:var(--ink);color:#fff;font-size:14px;font-weight:600;padding:13px 22px;border-radius:999px;box-shadow:0 12px 34px rgba(0,0,0,.26);opacity:0;pointer-events:none;transition:.26s;max-width:88vw;text-align:center}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+footer{text-align:center;color:var(--muted);font-size:12.5px;padding:0 16px 36px}
+@media (max-width:680px){
+  .podium{grid-template-columns:1fr;max-width:340px}
+  .pod1{order:-1;min-height:auto}.pod2,.pod3{min-height:auto}
+  .pod .no{font-size:72px;bottom:-8px;right:14px;left:auto;transform:none}
+}
+@media (max-width:620px){
+  .hero{padding:28px 18px 86px}.mhero{padding:18px}.panel{padding:17px}
+  .mstat{gap:18px}.mstat div b{font-size:23px}
+  .langsw{position:static;display:inline-flex;margin:0 auto 14px}
+}
+@media print{nav,.btn,.hero svg,.langsw{display:none}.page{display:block!important}body{background:#fff}}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="langsw"><button data-lang="vi">VI</button><button data-lang="en" class="on">EN</button></div>
+  <svg class="ribbon" viewBox="0 0 900 220" preserveAspectRatio="none" aria-hidden="true">
+    <path d="M0 150 C230 86 430 184 900 104 L900 220 L0 220Z" fill="#00a05a" opacity=".85"/>
+    <path d="M0 176 C250 118 470 206 900 138 L900 220 L0 220Z" fill="#35c184" opacity=".75"/>
+    <path d="M0 196 C220 146 520 224 900 166 L900 220 L0 220Z" fill="#f5a623" opacity=".92"/>
+    <path d="M0 210 C260 176 540 232 900 190 L900 220 L0 220Z" fill="#ffd978"/>
+    <path d="M0 132 C260 70 500 170 900 78" fill="none" stroke="#e0144c" stroke-width="5" opacity=".75" stroke-linecap="round"/>
+    <path d="M0 112 C280 52 520 150 900 56" fill="none" stroke="#fff" stroke-width="2.5" opacity=".35" stroke-linecap="round"/>
+    <path d="M0 160 C240 104 460 192 900 118" fill="none" stroke="#9fd6ff" stroke-width="3" opacity=".5" stroke-linecap="round"/>
+  </svg>
+  <div class="inner">
+    <div class="brandline"><i></i><span data-i18n="anniv"></span><i></i></div>
+    <h1>Step Up <b>15+</b></h1>
+    <p data-i18n="tagline"></p>
+    <div class="rings">
+      <i style="border-color:#0b5ed7"></i><i style="border-color:#17181c"></i>
+      <i style="border-color:#e0144c"></i><i style="border-color:#f5a623"></i><i style="border-color:#00a05a"></i>
+    </div>
+  </div>
+</div>
+
+<nav><div class="nbar">
+  <button class="tab on" data-p="me" data-i18n="tab.me"></button>
+  <button class="tab" data-p="viral" data-i18n="tab.viral"></button>
+  <button class="tab" data-p="rules" data-i18n="tab.rules"></button>
+</div></nav>
+
+<main>
+<div class="syncbar" id="syncbar"><span class="dotx"></span><span id="sync-text"></span>
+  <button id="btn-sync" data-i18n="sync.refresh"></button></div>
+
+<!-- ======== ME ======== -->
+<section class="page on" id="p-me">
+  <div class="mhero">
+    <div class="pick"><label data-i18n="youAre"></label><select id="sel-member"></select></div>
+    <div class="mstat">
+      <div><b id="m-total">0</b><span data-i18n="st.total"></span></div>
+      <div><b id="m-left">300</b><span data-i18n="st.left"></span></div>
+      <div><b id="m-rank">—</b><span data-i18n="st.rank"></span></div>
+    </div>
+  </div>
+
+  <div class="podwrap">
+    <div class="confetti" id="confetti"></div>
+    <div class="podtitle" data-i18n="pod.title"></div>
+    <div class="podium" id="podium"></div>
+  </div>
+  <div class="sec-h"><h2 data-i18n="rank.title"></h2><span data-i18n="rank.sub"></span></div>
+  <div class="lbgrid" id="ranklist"></div>
+
+  <div class="panel entry">
+    <h3 data-i18n="entry.title"></h3><p data-i18n="entry.sub"></p>
+    <div class="sports" id="sports"></div>
+    <div class="frow">
+      <div class="fld"><label data-i18n="f.date"></label><input type="date" id="f-date"></div>
+      <div class="fld"><label id="l-val"></label><input type="number" id="f-val" min="0" step="0.1" placeholder="0"></div>
+      <div class="fld"><label data-i18n="f.proof"></label>
+        <select id="f-proof">
+          <option value="none" data-i18n="f.proof.none"></option>
+          <option value="drive" data-i18n="f.proof.drive"></option>
+          <option value="zalo" data-i18n="f.proof.zalo"></option></select></div>
+    </div>
+    <button class="btn btn-go btn-full" id="btn-add" style="margin-top:14px" data-i18n="f.submit"></button>
+    <div class="tip" id="tip"></div>
+  </div>
+
+  <div class="sec-h"><h2 data-i18n="prog.title"></h2><span data-i18n="prog.sub"></span></div>
+  <div class="pgrid" id="m-progress"></div>
+
+  <div class="sec-h"><h2 data-i18n="log.title"></h2><span id="log-count"></span></div>
+  <div class="panel">
+    <div class="frow" style="margin-bottom:14px">
+      <div class="fld"><label data-i18n="log.filter"></label><select id="f-filter"></select></div>
+      <div class="fld"><label data-i18n="log.sort"></label>
+        <select id="f-sort"><option value="desc" data-i18n="log.newest"></option><option value="asc" data-i18n="log.oldest"></option></select></div>
+    </div>
+    <div class="log" id="log"></div>
+  </div>
+
+</section>
+
+<!-- ======== VIRAL ======== -->
+<section class="page" id="p-viral">
+  <div class="kpis" style="margin-bottom:18px">
+    <div class="kpi k3"><b id="v-posts">0</b><em data-i18n="v.kpi.posts"></em></div>
+    <div class="kpi k4"><b id="v-src">0/10</b><em data-i18n="v.kpi.src"></em></div>
+    <div class="kpi k1"><b id="v-photos">0</b><em data-i18n="v.kpi.photos"></em></div>
+  </div>
+
+  <div class="panel">
+    <h3 data-i18n="v.flow.title"></h3><p data-i18n="v.flow.sub"></p>
+    <div class="flow" id="v-flow"></div>
+    <div class="frow" style="margin-top:16px">
+      <div class="fld" style="flex:3"><label data-i18n="v.folder"></label><input type="url" id="in-folder" placeholder="https://drive.google.com/..."></div>
+      <button class="btn btn-o" id="btn-folder" data-i18n="save"></button>
+      <button class="btn btn-main" id="btn-open-folder" data-i18n="v.open"></button>
+    </div>
+  </div>
+
+  <div class="panel">
+    <h3 data-i18n="v.log.title"></h3><p data-i18n="v.log.sub"></p>
+    <div class="frow">
+      <div class="fld"><label data-i18n="v.publisher"></label><select id="p-publisher"></select></div>
+      <div class="fld"><label data-i18n="v.date"></label><input type="date" id="p-date"></div>
+      <div class="fld"><label data-i18n="v.platform"></label>
+        <select id="p-platform"><option>Facebook</option><option>Instagram</option><option>TikTok</option><option>LinkedIn</option><option>Threads</option><option>Zalo</option></select></div>
+      <div class="fld"><label data-i18n="v.source"></label><select id="p-source"></select></div>
+      <div class="fld" style="flex:2"><label data-i18n="v.url"></label><input type="url" id="p-url" placeholder="https://..."></div>
+    </div>
+    <button class="btn btn-go btn-full" id="btn-post" style="margin-top:14px" data-i18n="v.submit"></button>
+    <div class="tip" data-i18n="v.tip"></div>
+  </div>
+
+  <div class="sec-h"><h2 data-i18n="v.list.title"></h2><span id="v-count"></span></div>
+  <div class="panel"><div class="log" id="postlog"></div></div>
+
+</section>
+
+<!-- ======== RULES ======== -->
+<section class="page" id="p-rules">
+  <div class="sec-h"><h2 data-i18n="teamsec.title"></h2><span data-i18n="teamsec.sub"></span></div>
+  <div class="kpis">
+    <div class="kpi k1"><b id="k-avg">0</b><em data-i18n="kpi.avg"></em></div>
+    <div class="kpi k2"><b id="k-pass">0/10</b><em data-i18n="kpi.pass"></em></div>
+    <div class="kpi k3"><b id="k-viral">0</b><em data-i18n="kpi.viral"></em></div>
+    <div class="kpi k4"><b id="k-sports">0/4</b><em data-i18n="kpi.sports"></em></div>
+  </div>
+  <div class="sec-h"><h2 data-i18n="track.title"></h2><span data-i18n="track.sub"></span></div>
+  <div class="panel" id="prize-track"></div>
+  <div class="panel">
+    <h3 data-i18n="group.title"></h3><p data-i18n="group.sub"></p>
+    <div class="kpis" style="margin-bottom:18px">
+      <div class="kpi k2"><b id="g-avg">0</b><em data-i18n="group.kpiAvg"></em></div>
+      <div class="kpi k1"><b id="g-five">0</b><em data-i18n="group.kpi5"></em></div>
+      <div class="kpi k4"><b id="g-count">0</b><em data-i18n="group.kpiCount"></em></div>
+    </div>
+    <div class="frow">
+      <div class="fld"><label data-i18n="group.date"></label><input type="date" id="g-date"></div>
+      <div class="fld"><label data-i18n="group.act"></label><select id="g-act"></select></div>
+      <div class="fld"><label data-i18n="group.members"></label><input type="number" id="g-members" min="1" step="1" placeholder="6"></div>
+      <button class="btn btn-main" id="btn-group" data-i18n="group.add"></button>
+    </div>
+    <div class="sec-h" style="margin:22px 0 11px"><h2 style="font-size:15px" data-i18n="group.list"></h2><span id="g-listcount"></span></div>
+    <div class="log" id="grouplog"></div>
+  </div>
+
+  <div class="two">
+    <div class="panel"><h3>🏃 <span data-i18n="sp.run"></span></h3><p data-i18n="rules.runSub"></p>
+      <div class="ladder c-blue" id="ladder-run"></div></div>
+    <div class="panel"><h3>🏸 <span data-i18n="rules.sessionSports"></span></h3><p data-i18n="rules.sesSub"></p>
+      <div class="ladder c-red" id="ladder-ses"></div></div>
+  </div>
+  <div class="two">
+    <div class="panel"><h3 data-i18n="rules.title"></h3><div id="rules-list" style="margin-top:14px"></div></div>
+    <div class="panel"><h3 data-i18n="proof.title"></h3><div id="proof-list" style="margin-top:14px"></div>
+      <div class="tip" id="example-tip" style="margin-top:16px"></div></div>
+  </div>
+  <div class="panel"><h3 data-i18n="prizes.title"></h3><p data-i18n="prizes.sub"></p><div id="prize-list"></div></div>
+</section>
+</main>
+<footer data-i18n="footer"></footer>
+<div id="toast"></div>
+
+<script>
+/* ===== CONFIG: dán URL Web App Google Apps Script / paste your Apps Script Web App URL ===== */
+const API_URL = "https://script.google.com/macros/s/AKfycbwCf63FNImtYoqUfMa1vN1n3DmOwWgucDBqpRBTELRWqER6RxWdnEwwLDTM-iWUbaY8Rw/exec";
+
+const MEMBERS=["Park Jinho","Trần Việt Anh Duy","Nguyễn Thị Ngọc Hân","Phạm Huỳnh Phương Thảo",
+"Phạm Trần Mai Phương","Nguyễn Thị Ánh Đào","Huỳnh Thị Sen","Nguyễn Thị Kim Tiền",
+"Huỳnh Trung Nghĩa","Eun Cho"];
+const PUBLISHERS=["Phạm Trần Mai Phương","Phạm Huỳnh Phương Thảo","Nguyễn Thị Ánh Đào"];
+const SPORT_DEF=[
+ {n:"Đi bộ/Chạy bộ",k:"sp.run",icon:"🏃",c:"blue"},
+ {n:"Cầu lông",k:"sp.bad",icon:"🏸",c:"red"},
+ {n:"Bóng đá",k:"sp.foot",icon:"⚽",c:"green"},
+ {n:"Pickleball",k:"sp.pick",icon:"🎾",c:"yellow"},
+ {n:"Thử thách thêm",k:"sp.bonus",icon:"⭐",c:"black"}];
+const SESSION_SPORTS=["Cầu lông","Bóng đá","Pickleball"];
+const COLORS={blue:"#0b5ed7",red:"#e0144c",yellow:"#f5a623",green:"#00a05a",black:"#17181c"};
+const RINGC=["blue","black","red","yellow","green"];
+const WR=[[500,500],[400,400],[300,300],[200,200],[100,100]];
+const BFP=[[78,780],[65,650],[52,520],[26,260],[13,130]];
+const KEY="stepup15.v1", GOAL=300;
+
+/* ===== I18N ===== */
+const I18N={
+vi:{
+ anniv:"15 Years of Anniversary",
+ tagline:"Luyện tập mỗi ngày · Tích điểm lên Level · Chạm mốc 300 điểm",
+ "tab.me":"Bảng điểm của tôi","tab.viral":"Viral","tab.rules":"Cách tính điểm",
+ "teamsec.title":"Chỉ số cả team","teamsec.sub":"Dùng để xét các giải team",
+ youAre:"Bạn là","st.total":"TỔNG ĐIỂM","st.left":"CÒN THIẾU","st.rank":"HẠNG TEAM",
+ "entry.title":"Hôm nay bạn tập gì?","entry.sub":"Chọn môn, nhập số liệu, xong.",
+ "f.date":"Ngày","f.sport":"Môn thể thao","f.proof":"Minh chứng đã nộp",
+ "f.proof.none":"Chưa nộp","f.proof.drive":"📁 Đã up lên Drive","f.proof.zalo":"💬 Đã gửi group Zalo",
+ "f.submit":"Ghi nhận buổi tập","f.km":"Số KM","f.min":"Số phút tập","f.bonus":"Điểm thưởng",
+ "tip.run":"Đi bộ / chạy bộ tính tối thiểu <b>1 km</b> mỗi buổi.",
+ "tip.ses":"Mỗi buổi tập tối thiểu <b>30 phút</b> mới được tính 1 buổi.",
+ "tip.bonus":"Nhập số điểm thử thách do <b>ban tổ chức công bố</b> cho hoạt động đó.",
+ "prog.title":"Tiến độ của bạn","prog.sub":"Điểm chỉ cộng khi lên trọn Level",
+ "log.title":"Lịch sử luyện tập","log.filter":"Lọc môn","log.sort":"Sắp xếp",
+ "log.newest":"Mới nhất trước","log.oldest":"Cũ nhất trước","log.all":"Tất cả môn",
+ "log.records":"bản ghi","log.empty":"Chưa có buổi tập nào.<br>Ghi nhận buổi đầu tiên ở phía trên nhé!",
+ "log.drive":"đã up Drive","log.zalo":"đã gửi Zalo","log.noproof":"chưa nộp minh chứng",
+ "st.verified":"✅ Đã xác minh","st.pending":"⏳ Chưa xác minh",
+ "ed.title":"Sửa bản ghi","ed.save":"Lưu thay đổi","ed.cancel":"Hủy",
+ "pod.title":"Top 3 dẫn đầu",
+ "kpi.avg":"Điểm trung bình team","kpi.pass":"Thành viên đạt 300đ","kpi.viral":"Bài đăng mạng xã hội","kpi.sports":"Môn thể thao đã tham gia",
+ "rank.title":"Bảng xếp hạng đầy đủ","rank.sub":"Chạm vào một người để xem sổ tập",
+ "track.title":"Đường đua giải thưởng","track.sub":"Chỉ nhận 01 giải cao nhất",
+ "track.now":"Chỉ số hiện tại","track.empty":"chưa có",
+ "group.title":"Buổi tập chung của team","group.sub":"Ghi nhận các buổi cả team cùng tập — dùng để xét giải Best Team Engagement.",
+ "group.kpiAvg":"TB thành viên / buổi","group.kpi5":"Buổi có ≥ 5 người","group.kpiCount":"Tổng số buổi chung",
+ "group.date":"Ngày","group.act":"Loại hoạt động","group.members":"Số thành viên tham gia",
+ "group.add":"Thêm buổi chung","group.list":"Danh sách buổi tập chung","group.sessions":"buổi",
+ "group.people":"thành viên","group.empty":"Chưa ghi nhận buổi tập chung nào.",
+ "group.needMembers":"Nhập số thành viên tham gia","group.other":"Hoạt động khác",save:"Lưu",
+ "sp.run":"Đi bộ / Chạy","sp.bad":"Cầu lông","sp.foot":"Bóng đá","sp.pick":"Pickleball","sp.bonus":"Thử thách",
+ "rules.runSub":"Tính theo tổng KM · tối thiểu 1 km mỗi buổi",
+ "rules.sessionSports":"Cầu lông · Bóng đá · Pickleball",
+ "rules.sesSub":"Tính theo số buổi · tối thiểu 30 phút mỗi buổi",
+ "u.km":"km","u.ses":"buổi","u.pt":"đ","u.min":"phút","u.pts":"điểm",
+ "rules.title":"Luật chơi",
+ rules:[["🎯","Đủ Level mới có điểm","Không tính lẻ từng km hay từng buổi."],
+        ["🔀","Chơi nhiều môn được cộng dồn","Kết hợp thoải mái, điểm các môn cộng lại."],
+        ["🌙","Ngoài giờ, ngoài công ty","Chỉ tính buổi tập ngoài giờ làm và ngoài khu vực làm việc."],
+        ["🤝","Chưa đủ 300đ vẫn được xét giải team","Team chưa đủ 10 người vẫn tham gia bình thường."]],
+ "proof.title":"Minh chứng & tự xác minh",
+ proof:[["📸","Chụp màn hình có ngày & giờ","Check in — Check out — Record on apps."],
+        ["📁","Up lên folder cá nhân Google Drive","Đặt tên file theo ngày, VD: 05102026"],
+        ["✅","Tự bấm xác minh","Mỗi người tự đổi trạng thái bản ghi của mình sang \"Đã xác minh\" — không cần ai duyệt."]],
+ example:"<b>Ví dụ:</b> 300 km đi bộ (Lv3 = 300đ) + 13 buổi cầu lông (Lv1 = 130đ) → <b>430 điểm</b>",
+ "prizes.title":"Giải thưởng","prizes.sub":"Giải team 25 triệu · Giải cá nhân 25 triệu",
+ prizes:[["Step Up 15+ Champion","Tổng điểm trung bình cao nhất"],
+         ["Best Team Engagement","Nhiều người cùng tập trong một buổi nhất"],
+         ["Best Team Performance","Tham gia đa dạng môn thể thao nhất"],
+         ["Best Team Transformation","Nhiều thành viên đạt 300 điểm nhất"],
+         ["Best Viral Team","Nhiều ảnh/video #StepUp15+ #Handong15thAnniversary nhất"],
+         ["Giải cá nhân","Mọi người đạt +300 điểm"]],
+ "track.m":["điểm TB","người/buổi","môn","người đạt 300đ","bài"],
+ "v.kpi.posts":"Bài đã đăng","v.kpi.src":"Người đã nộp ảnh","v.kpi.photos":"Buổi tập đã có minh chứng",
+ "v.flow.title":"Chiến lược giải Viral","v.flow.sub":"Gom nguồn một chỗ — 3 bạn phụ trách đăng tải.",
+ vflow:[["Tất cả thành viên","Chụp ảnh/video buổi tập, up lên Drive hoặc gửi vào group Zalo, rồi chọn đúng mục đó khi ghi nhận buổi tập."],
+        ["Phương · Thảo · Đào","Vào kho chung lấy source, chia nhau đăng lên MXH kèm #StepUp15+ #Handong15thAnniversary."],
+        ["Sau khi đăng","Quay lại tab này ghi nhận link bài đăng — số liệu tự chạy vào chỉ số giải Viral."]],
+ "v.folder":"Link kho ảnh chung (Drive / Zalo)","v.open":"Mở kho ảnh",
+ "v.log.title":"Ghi nhận bài đã đăng","v.log.sub":"Dành cho Phương, Thảo, Đào.",
+ "v.publisher":"Người đăng","v.date":"Ngày đăng","v.platform":"Nền tảng",
+ "v.source":"Nguồn ảnh của ai","v.url":"Link bài đăng","v.submit":"Ghi nhận bài đăng",
+ "v.tip":"Tiêu chí Best Viral Team: nhiều bài hợp lệ nhất · đồng hạng thì team có nhiều thành viên khác nhau đóng góp ảnh hơn sẽ thắng.",
+ "v.list.title":"Bài đã đăng","v.posts":"bài","v.empty":"Chưa có bài đăng nào.",
+ "v.needUrl":"Dán link bài đăng","v.needFolder":"Chưa có link kho ảnh chung",
+ footer:"Step Up 15+ · 05/10/2026 – 31/12/2026",
+ "sync.cloud":"Đang lưu trên Google Sheets","sync.local":"Đang lưu trên máy này","sync.err":"Mất kết nối — tạm lưu trên máy",
+ "sync.refresh":"Tải lại","sync.loading":"Đang đồng bộ…",
+ "t.saved":"Đã lưu","t.added":"Đã ghi nhận","t.deleted":"Đã xóa","t.updated":"Đã cập nhật",
+ "t.pickDate":"Chọn ngày tập","t.minKm":"Cần tối thiểu 1 km","t.minMin":"Buổi tập cần tối thiểu 30 phút",
+ "t.needBonus":"Nhập số điểm thử thách","t.blocked":"Trình duyệt đang chặn lưu dữ liệu",
+ "t.confirmDel":"Xóa buổi tập ngày","t.confirmDelPost":"Xóa bài đăng này?","t.confirmDelGroup":"Xóa buổi tập chung này?",
+ goal:"mục tiêu",reach:"Đã đạt 300 điểm — nhận T-Shirt 🎽",left1:"Còn",left2:"điểm nữa là chạm mốc",
+ "nx.km":"Còn {n} km để lên Lv{l}","nx.ses":"Còn {n} buổi để lên Lv{l}","nx.max":"Đã đạt Lv5 🏆",
+ "p.bonusNote":"Điểm thưởng từ hoạt động bổ sung","p.pass":"ĐẠT 300đ","p.nodata":"chưa có dữ liệu"
+},
+en:{
+ anniv:"15 Years of Anniversary",
+ tagline:"Train every day · Level up · Reach 300 points",
+ "tab.me":"My log","tab.viral":"Viral","tab.rules":"Scoring",
+ "teamsec.title":"Team figures","teamsec.sub":"Used for the team prizes",
+ youAre:"You are","st.total":"TOTAL POINTS","st.left":"POINTS TO GO","st.rank":"TEAM RANK",
+ "entry.title":"What did you train today?","entry.sub":"Pick a sport, enter the number, done.",
+ "f.date":"Date","f.sport":"Sport","f.proof":"Proof submitted",
+ "f.proof.none":"Not yet","f.proof.drive":"📁 Uploaded to Drive","f.proof.zalo":"💬 Sent to Zalo group",
+ "f.submit":"Log this session","f.km":"Distance (km)","f.min":"Duration (minutes)","f.bonus":"Bonus points",
+ "tip.run":"Walking / running counts from <b>1 km</b> per session.",
+ "tip.ses":"A session counts only if it lasts at least <b>30 minutes</b>.",
+ "tip.bonus":"Enter the bonus points <b>announced by the organisers</b> for that activity.",
+ "prog.title":"Your progress","prog.sub":"Points are granted per completed Level only",
+ "log.title":"Training history","log.filter":"Filter sport","log.sort":"Sort",
+ "log.newest":"Newest first","log.oldest":"Oldest first","log.all":"All sports",
+ "log.records":"records","log.empty":"No sessions yet.<br>Log your first one above!",
+ "log.drive":"on Drive","log.zalo":"in Zalo group","log.noproof":"no proof yet",
+ "st.verified":"✅ Verified","st.pending":"⏳ Unverified",
+ "ed.title":"Edit record","ed.save":"Save changes","ed.cancel":"Cancel",
+ "pod.title":"Top 3 leaders",
+ "kpi.avg":"Team average points","kpi.pass":"Members at 300 pts","kpi.viral":"Social media posts","kpi.sports":"Sports played",
+ "rank.title":"Full leaderboard","rank.sub":"Tap a member to open their log",
+ "track.title":"Prize race","track.sub":"Only the highest prize is awarded",
+ "track.now":"Current figure","track.empty":"no data",
+ "group.title":"Team group sessions","group.sub":"Log the sessions the team trained together — used for the Best Team Engagement prize.",
+ "group.kpiAvg":"Avg. members per session","group.kpi5":"Sessions with 5+ people","group.kpiCount":"Group sessions logged",
+ "group.date":"Date","group.act":"Activity","group.members":"Members who joined",
+ "group.add":"Add session","group.list":"Group session records","group.sessions":"sessions",
+ "group.people":"members","group.empty":"No group sessions logged yet.",
+ "group.needMembers":"Enter how many members joined","group.other":"Other activity",save:"Save",
+ "sp.run":"Walk / Run","sp.bad":"Badminton","sp.foot":"Football","sp.pick":"Pickleball","sp.bonus":"Challenge",
+ "rules.runSub":"Based on total KM · min 1 km per session",
+ "rules.sessionSports":"Badminton · Football · Pickleball",
+ "rules.sesSub":"Based on session count · min 30 minutes each",
+ "u.km":"km","u.ses":"sessions","u.pt":"pts","u.min":"min","u.pts":"pts",
+ "rules.title":"Rules",
+ rules:[["🎯","Points come per full Level","Partial km or sessions earn nothing."],
+        ["🔀","Mix sports, points add up","Combine freely — all sports count together."],
+        ["🌙","Off hours, off site","Only sessions outside working hours and outside the workplace count."],
+        ["🤝","Under 300 pts still counts for the team","A team with fewer than 10 members can still join."]],
+ "proof.title":"Proof & self-verification",
+ proof:[["📸","Screenshot with date & time","Check in — Check out — Record on apps."],
+        ["📁","Upload to your Google Drive folder","Name the file by date, e.g. 05102026"],
+        ["✅","Verify it yourself","Each member switches their own record to \"Verified\" — no approval step needed."]],
+ example:"<b>Example:</b> 300 km walking (Lv3 = 300 pts) + 13 badminton sessions (Lv1 = 130 pts) → <b>430 points</b>",
+ "prizes.title":"Prizes","prizes.sub":"Team prizes 25M VND · Individual prizes 25M VND",
+ prizes:[["Step Up 15+ Champion","Highest team average score"],
+         ["Best Team Engagement","Most members training together per session"],
+         ["Best Team Performance","Widest variety of sports played"],
+         ["Best Team Transformation","Most members reaching 300 points"],
+         ["Best Viral Team","Most valid #StepUp15+ #Handong15thAnniversary posts"],
+         ["Individual prize","Everyone who reaches +300 points"]],
+ "track.m":["avg pts","per session","sports","members at 300","posts"],
+ "v.kpi.posts":"Posts published","v.kpi.src":"Members contributing","v.kpi.photos":"Sessions with proof",
+ "v.flow.title":"Viral prize strategy","v.flow.sub":"One shared source folder — three members publish.",
+ vflow:[["Everyone","Shoot photos/videos of your session, upload them to Drive or send them to the Zalo group, then pick that option when you log the session."],
+        ["Phương · Thảo · Đào","Pull the source material from the shared folder and split the publishing with #StepUp15+ #Handong15thAnniversary."],
+        ["After publishing","Come back here and log the post link — the Viral prize figures update automatically."]],
+ "v.folder":"Team shared folder link","v.open":"Open folder",
+ "v.log.title":"Log a published post","v.log.sub":"For Phương, Thảo and Đào.",
+ "v.publisher":"Published by","v.date":"Publish date","v.platform":"Platform",
+ "v.source":"Photo source from","v.url":"Post link","v.submit":"Log this post",
+ "v.tip":"Best Viral Team criteria: most valid posts · ties go to the team whose posts come from more different contributors.",
+ "v.list.title":"Published posts","v.posts":"posts","v.empty":"No posts logged yet.",
+ "v.needUrl":"Paste the post link","v.needFolder":"No shared folder link yet",
+ footer:"Step Up 15+ · 05 Oct 2026 – 31 Dec 2026",
+ "sync.cloud":"Saving to Google Sheets","sync.local":"Saving on this device","sync.err":"Disconnected — saved locally",
+ "sync.refresh":"Refresh","sync.loading":"Syncing…",
+ "t.saved":"Saved","t.added":"Logged","t.deleted":"Deleted","t.updated":"Updated",
+ "t.pickDate":"Pick a date","t.minKm":"At least 1 km required","t.minMin":"A session needs at least 30 minutes",
+ "t.needBonus":"Enter the bonus points","t.blocked":"Browser is blocking local storage",
+ "t.confirmDel":"Delete the session on","t.confirmDelPost":"Delete this post?","t.confirmDelGroup":"Delete this group session?",
+ goal:"of goal",reach:"Goal reached — T-Shirt unlocked 🎽",left1:"",left2:"points to go",
+ "nx.km":"{n} km to reach Lv{l}","nx.ses":"{n} sessions to reach Lv{l}","nx.max":"Lv5 reached 🏆",
+ "p.bonusNote":"Bonus points from extra activities","p.pass":"300 PTS","p.nodata":"no data yet"
+}};
+let LANG=localStorage.getItem("stepup15.lang")||"en";
+const t=k=>I18N[LANG][k]??I18N.vi[k]??k;
+
+/* ===== STATE ===== */
+let S={logs:{},posts:[],sessions:[],team:{folder:""}};
+try{const raw=localStorage.getItem(KEY); if(raw) S=Object.assign(S,JSON.parse(raw));}catch(e){}
+MEMBERS.forEach(m=>{if(!Array.isArray(S.logs[m])) S.logs[m]=[];});
+if(!Array.isArray(S.posts)) S.posts=[];
+if(!Array.isArray(S.sessions)) S.sessions=[];
+if(!S.team) S.team={folder:""};
+/* migrate v1 → v2 fields */
+MEMBERS.forEach(m=>S.logs[m].forEach(r=>{
+  if(r.proof===undefined||r.proof===""||r.proof===true) r.proof=(r.source==="yes"||r.link||r.social==="yes")?"drive":"none";
+  if(r.status===undefined) r.status=(r.hr==="ok")?"verified":"pending";
+  delete r.social; delete r.hr; delete r.link; delete r.source;}));
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){toast(t("t.blocked"));}};
+const api=()=>(API_URL||"").trim();
+let syncState="local";
+
+const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const nf=n=>Number(n||0).toLocaleString(LANG==="vi"?"vi-VN":"en-US",{maximumFractionDigits:1});
+const fmtDate=d=>{const p=String(d||"").split("-");return p.length===3?`${p[2]}/${p[1]}`:d;};
+const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const shortName=n=>String(n).trim().split(/\s+/).slice(-2).join(" ");
+const initials=n=>{const w=String(n).trim().split(/\s+/);return ((w[0]||"")[0]+(w[w.length-1]||"")[0]).toUpperCase();};
+let tmr; function toast(m){const el=$("#toast");el.textContent=m;el.classList.add("on");clearTimeout(tmr);tmr=setTimeout(()=>el.classList.remove("on"),2600);}
+function lvOf(v,tb){const h=tb.find(r=>v>=r[0]);return h?{lv:tb.length-tb.indexOf(h),pts:h[1]}:{lv:0,pts:0};}
+function nextStep(v,tb){const asc=[...tb].reverse(),up=asc.find(r=>r[0]>v);
+  return up?{need:up[0]-v,lv:tb.length-tb.findIndex(r=>r[0]===up[0])}:null;}
+const sportDef=n=>SPORT_DEF.find(s=>s.n===n)||SPORT_DEF[0];
+
+function calc(name){
+  const rows=S.logs[name]||[];
+  let km=0,ses=0,bonus=0,sourced=0,verified=0;const used=new Set();
+  rows.forEach(r=>{
+    if(r.sport==="Đi bộ/Chạy bộ"){km+=Number(r.km||0);used.add(r.sport);}
+    else if(r.sport==="Thử thách thêm"){bonus+=Number(r.bonus||0);}
+    else if(SESSION_SPORTS.includes(r.sport)){ses++;used.add(r.sport);}
+    if(r.proof&&r.proof!=="none")sourced++;
+    if(r.status==="verified")verified++;});
+  const a=lvOf(km,WR),b=lvOf(ses,BFP);
+  return {km,ses,bonus,sourced,verified,sports:used,lvA:a.lv,ptsA:a.pts,lvB:b.lv,ptsB:b.pts,
+    total:a.pts+b.pts+bonus,rows:rows.length};
+}
+
+/* ===== CLOUD ===== */
+function setSync(state,msg){
+  syncState=state;
+  const bar=$("#syncbar");bar.className="syncbar"+(state==="cloud"?" cloud":state==="err"?" err":"");
+  $("#sync-text").textContent=msg||(state==="cloud"?t("sync.cloud"):state==="err"?t("sync.err"):t("sync.local"));
+}
+const isoDate=v=>{
+  const str=String(v||"");
+  if(/^\d{4}-\d{2}-\d{2}$/.test(str))return str;
+  const p=new Date(str);
+  if(isNaN(p.getTime()))return str;
+  const pad=n=>String(n).padStart(2,"0");
+  return `${p.getFullYear()}-${pad(p.getMonth()+1)}-${pad(p.getDate())}`;};
+function applyRemote(d){
+  MEMBERS.forEach(m=>S.logs[m]=[]);
+  (d.rows||[]).forEach(r=>{if(MEMBERS.includes(r.member))S.logs[r.member].push({...r,date:isoDate(r.date)});});
+  S.posts=(Array.isArray(d.posts)?d.posts:[]).map(x=>({...x,date:isoDate(x.date)}));
+  S.sessions=(Array.isArray(d.sessions)?d.sessions:[]).map(x=>({...x,date:isoDate(x.date)}));
+  if(d.team){["folder"].forEach(k=>{if(d.team[k]!==undefined)S.team[k]=d.team[k];});}
+  save();
+}
+async function pull(silent){
+  if(!api()){setSync("local");return;}
+  if(!silent)setSync("cloud",t("sync.loading"));
+  try{const r=await fetch(api()+"?ts="+Date.now());const d=await r.json();
+    if(!d.ok)throw 0;applyRemote(d);renderAll();setSync("cloud");}
+  catch(e){setSync("err");}
+}
+async function push(payload){
+  if(!api())return false;
+  try{const r=await fetch(api(),{method:"POST",headers:{"Content-Type":"text/plain;charset=utf-8"},body:JSON.stringify(payload)});
+    const d=await r.json();if(!d.ok)throw 0;applyRemote(d);renderAll();setSync("cloud");return true;}
+  catch(e){setSync("err");return false;}
+}
+$("#btn-sync").addEventListener("click",()=>api()?pull():toast(t("sync.local")));
+
+/* ===== LANG ===== */
+function applyLang(){
+  document.documentElement.lang=LANG;localStorage.setItem("stepup15.lang",LANG);
+  $$(".langsw button").forEach(b=>b.classList.toggle("on",b.dataset.lang===LANG));
+  $$("[data-i18n]").forEach(el=>el.textContent=t(el.dataset.i18n));
+  const gv=$("#g-act").value;
+  $("#g-act").innerHTML=SPORT_DEF.slice(0,4).map(x=>`<option value="${esc(x.n)}">${x.icon} ${esc(t(x.k))}</option>`).join("")
+    +`<option value="other">👥 ${esc(t("group.other"))}</option>`;
+  $("#g-act").value=gv||SPORT_DEF[0].n;
+  $("#sports").innerHTML=SPORT_DEF.map(s=>
+    `<button class="sp${s.n===SPORT?" on":""}" data-s="${esc(s.n)}" data-c="${s.c}"><em>${s.icon}</em>${esc(t(s.k))}</button>`).join("");
+  $$(".sp").forEach(b=>b.addEventListener("click",()=>{SPORT=b.dataset.s;$$(".sp").forEach(x=>x.classList.remove("on"));b.classList.add("on");syncForm();}));
+  const fv=$("#f-filter").value;
+  $("#f-filter").innerHTML=`<option value="">${esc(t("log.all"))}</option>`+
+    SPORT_DEF.map(s=>`<option value="${esc(s.n)}">${s.icon} ${esc(t(s.k))}</option>`).join("");
+  $("#f-filter").value=fv;
+  $("#ladder-run").innerHTML=[...WR].reverse().map((r,i)=>
+    `<div class="lv"><b>Lv${i+1}</b><span class="need">${r[0]} ${t("u.km")}</span><span class="pt">${r[1]}${t("u.pt")}</span></div>`).join("");
+  $("#ladder-ses").innerHTML=[...BFP].reverse().map((r,i)=>
+    `<div class="lv"><b>Lv${i+1}</b><span class="need">${r[0]} ${t("u.ses")}</span><span class="pt">${r[1]}${t("u.pt")}</span></div>`).join("");
+  const rl=a=>a.map(x=>`<div class="rule"><em>${x[0]}</em><div><b>${esc(x[1])}</b><p>${esc(x[2])}</p></div></div>`).join("");
+  $("#rules-list").innerHTML=rl(t("rules"));$("#proof-list").innerHTML=rl(t("proof"));
+  $("#example-tip").innerHTML=t("example");
+  const amt=["10.000.000","5.000.000","4.000.000","3.000.000","3.000.000","T-SHIRT"];
+  const bgc=["bg-blue","bg-green","bg-yellow","bg-red","bg-black","bg-yellow"];
+  $("#prize-list").innerHTML=t("prizes").map((p,i)=>
+    `<div class="prize"><span class="m ${bgc[i]}">${amt[i]}</span><div><b>${esc(p[0])}</b><p>${esc(p[1])}</p></div></div>`).join("");
+  $("#v-flow").innerHTML=t("vflow").map((f,i)=>
+    `<div class="fstep${i===1?" hot":""}"><div class="n">${i+1}</div><b>${esc(f[0])}</b><p>${esc(f[1])}</p>
+     ${i===1?`<div class="pubchips">${PUBLISHERS.map(p=>`<span class="pubchip">${esc(p.split(" ").slice(-2).join(" "))}</span>`).join("")}</div>`:""}</div>`).join("");
+  syncForm();setSync(syncState);renderAll();
+}
+$$(".langsw button").forEach(b=>b.addEventListener("click",()=>{LANG=b.dataset.lang;applyLang();}));
+
+/* ===== TABS ===== */
+$$(".tab").forEach(tb=>tb.addEventListener("click",()=>{
+  $$(".tab").forEach(x=>x.classList.remove("on"));tb.classList.add("on");
+  $$(".page").forEach(p=>p.classList.remove("on"));$("#p-"+tb.dataset.p).classList.add("on");
+  window.scrollTo({top:0,behavior:"smooth"});}));
+
+/* ===== SELECTS ===== */
+const opts=MEMBERS.map(m=>`<option value="${esc(m)}">${esc(m)}</option>`).join("");
+$("#sel-member").innerHTML=opts;
+$("#p-source").innerHTML=opts;
+$("#p-publisher").innerHTML=PUBLISHERS.map(m=>`<option value="${esc(m)}">${esc(m)}</option>`).join("");
+$("#sel-member").addEventListener("change",()=>renderAll());
+["#f-filter","#f-sort"].forEach(s=>$(s).addEventListener("change",renderLog));
+let SPORT="Đi bộ/Chạy bộ",EDITING=null;
+function syncForm(){
+  const v=$("#f-val");
+  if(SPORT==="Đi bộ/Chạy bộ"){$("#l-val").textContent=t("f.km");v.step="0.1";v.placeholder=LANG==="vi"?"VD: 5.2":"e.g. 5.2";$("#tip").innerHTML=t("tip.run");}
+  else if(SPORT==="Thử thách thêm"){$("#l-val").textContent=t("f.bonus");v.step="10";v.placeholder=LANG==="vi"?"VD: 50":"e.g. 50";$("#tip").innerHTML=t("tip.bonus");}
+  else{$("#l-val").textContent=t("f.min");v.step="5";v.placeholder=LANG==="vi"?"VD: 60":"e.g. 60";$("#tip").innerHTML=t("tip.ses");}
+}
+$("#f-date").value=new Date().toISOString().slice(0,10);
+$("#p-date").value=new Date().toISOString().slice(0,10);
+
+/* ===== ADD ===== */
+$("#btn-add").addEventListener("click",async()=>{
+  const name=$("#sel-member").value,date=$("#f-date").value,val=Number($("#f-val").value||0);
+  if(!date)return toast(t("t.pickDate"));
+  if(SPORT==="Đi bộ/Chạy bộ"&&val<1)return toast(t("t.minKm"));
+  if(SESSION_SPORTS.includes(SPORT)&&val<30)return toast(t("t.minMin"));
+  if(SPORT==="Thử thách thêm"&&val<=0)return toast(t("t.needBonus"));
+  const proof=$("#f-proof").value;
+  const row={id:uid(),member:name,date,sport:SPORT,
+    km:SPORT==="Đi bộ/Chạy bộ"?val:0,min:SESSION_SPORTS.includes(SPORT)?val:0,
+    bonus:SPORT==="Thử thách thêm"?val:0,proof,
+    status:proof!=="none"?"verified":"pending",ts:Date.now()};
+  S.logs[name].push(row);save();$("#f-val").value="";
+  renderAll();toast(t("t.added")+" · +"+nf(val)+" "+(SPORT==="Đi bộ/Chạy bộ"?t("u.km"):SPORT==="Thử thách thêm"?t("u.pt"):t("u.min")));
+  if(api()){const b=$("#btn-add");b.disabled=true;await push({action:"add",row});b.disabled=false;}
+});
+
+/* ===== ME ===== */
+function renderMe(){
+  const name=$("#sel-member").value,c=calc(name);
+  const ranked=MEMBERS.map(m=>({m,tt:calc(m).total})).sort((a,b)=>b.tt-a.tt);
+  $("#m-total").textContent=nf(c.total);
+  $("#m-left").textContent=c.total>=GOAL?"✓":nf(GOAL-c.total);
+  $("#m-rank").textContent="#"+(ranked.findIndex(x=>x.m===name)+1);
+  const nA=nextStep(c.km,WR),nB=nextStep(c.ses,BFP);
+  const bars=(lv,cl)=>`<div class="lvbar ${cl}">${[1,2,3,4,5].map(i=>`<i class="${i<=lv?'on':''}"></i>`).join("")}</div>`;
+  const pct=Math.min(100,Math.round(c.total/GOAL*100));
+  const nxt=(n,key)=>n?t(key).replace("{n}",nf(n.need)).replace("{l}",n.lv):t("nx.max");
+  $("#m-progress").innerHTML=`
+   <div class="pbox"><div class="t"><b class="c-blue">${c.ptsA}${t("u.pt")}</b><span>🏃 ${nf(c.km)} ${t("u.km")}</span></div>
+     ${bars(c.lvA,"c-blue")}<small>${nxt(nA,"nx.km")}</small></div>
+   <div class="pbox"><div class="t"><b class="c-red">${c.ptsB}${t("u.pt")}</b><span>🏸 ${c.ses} ${t("u.ses")}</span></div>
+     ${bars(c.lvB,"c-red")}<small>${nxt(nB,"nx.ses")}</small></div>
+   <div class="pbox"><div class="t"><b class="c-black">${c.bonus}${t("u.pt")}</b><span>⭐ ${esc(t("sp.bonus"))}</span></div>
+     <div class="lvbar c-black"><i class="${c.bonus>0?'on':''}"></i></div><small>${esc(t("p.bonusNote"))}</small></div>
+   <div class="pbox" style="background:${c.total>=GOAL?'#e4f7ee':'#fff3df'};border-color:transparent">
+     <div class="t"><b class="${c.total>=GOAL?'c-green':'c-yellow'}">${nf(c.total)}${t("u.pt")}</b><span>${pct}% ${esc(t("goal"))}</span></div>
+     <div class="lvbar ${c.total>=GOAL?'c-green':'c-yellow'}"><i class="on" style="flex:none;width:${pct}%"></i></div>
+     <small>${c.total>=GOAL?esc(t("reach")):`${esc(t("left1"))} ${nf(GOAL-c.total)} ${esc(t("left2"))}`}</small></div>`;
+  renderLog();
+}
+
+function renderLog(){
+  const name=$("#sel-member").value,fs=$("#f-filter").value,so=$("#f-sort").value;
+  let rows=(S.logs[name]||[]).map((r,i)=>({...r,_i:i}));
+  if(fs)rows=rows.filter(r=>r.sport===fs);
+  rows.sort((a,b)=>so==="asc"?(a.date>b.date?1:-1):(a.date<b.date?1:-1));
+  $("#log-count").textContent=(S.logs[name]||[]).length+" "+t("log.records");
+  const box=$("#log");
+  if(!rows.length){box.innerHTML=`<div class="empty"><em>🏅</em>${t("log.empty")}</div>`;return;}
+  box.innerHTML=rows.map(r=>{
+    const d=sportDef(r.sport),col=COLORS[d.c];
+    const val=r.km?nf(r.km)+" "+t("u.km"):r.min?nf(r.min)+" "+t("u.min"):r.bonus?"+"+nf(r.bonus)+t("u.pt"):"—";
+    const editing=EDITING===r.id;
+    return `<div class="item" style="color:${col}">
+      <span class="dot"></span>
+      <div class="main"><b style="color:var(--ink)">${d.icon} ${esc(t(d.k))}</b>
+        <span>${fmtDate(r.date)} · ${r.proof==="drive"?"📁 "+esc(t("log.drive")):r.proof==="zalo"?"💬 "+esc(t("log.zalo")):"— "+esc(t("log.noproof"))}</span></div>
+      <span class="val" style="color:var(--ink)">${val}</span>
+      <select class="sel-st" data-id="${esc(r.id||"")}" data-i="${r._i}">
+        <option value="pending"${r.status!=="verified"?" selected":""}>${t("st.pending")}</option>
+        <option value="verified"${r.status==="verified"?" selected":""}>${t("st.verified")}</option></select>
+      <button class="iconbtn ed" data-id="${esc(r.id||"")}" title="${esc(t("ed.title"))}">✏️</button>
+      <button class="iconbtn dl" data-id="${esc(r.id||"")}" data-i="${r._i}">✕</button>
+      ${editing?`<div class="editbox">
+        <div class="frow">
+          <div class="fld"><label>${esc(t("f.date"))}</label><input type="date" id="e-date" value="${esc(r.date)}"></div>
+          <div class="fld"><label>${esc(t("f.sport"))}</label><select id="e-sport">
+            ${SPORT_DEF.map(s=>`<option value="${esc(s.n)}"${s.n===r.sport?" selected":""}>${s.icon} ${esc(t(s.k))}</option>`).join("")}</select></div>
+          <div class="fld"><label id="e-lab">${esc(r.sport==="Đi bộ/Chạy bộ"?t("f.km"):r.sport==="Thử thách thêm"?t("f.bonus"):t("f.min"))}</label>
+            <input type="number" id="e-val" min="0" step="0.1" value="${r.km||r.min||r.bonus||0}"></div>
+          <div class="fld"><label>${esc(t("f.proof"))}</label><select id="e-proof">
+            <option value="none"${!r.proof||r.proof==="none"?" selected":""}>${esc(t("f.proof.none"))}</option>
+            <option value="drive"${r.proof==="drive"?" selected":""}>${esc(t("f.proof.drive"))}</option>
+            <option value="zalo"${r.proof==="zalo"?" selected":""}>${esc(t("f.proof.zalo"))}</option></select></div>
+        </div>
+        <div class="frow" style="margin-top:12px;grid-template-columns:repeat(auto-fit,minmax(140px,1fr))">
+          <button class="btn btn-main savex" data-id="${esc(r.id)}" data-i="${r._i}">${esc(t("ed.save"))}</button>
+          <button class="btn btn-o cancelx">${esc(t("ed.cancel"))}</button></div></div>`:""}
+    </div>`;}).join("");
+
+  $$("#log .sel-st").forEach(s=>s.addEventListener("change",async e=>{
+    const i=+e.target.dataset.i;S.logs[name][i].status=e.target.value;save();renderAll();toast(t("t.updated"));
+    await push({action:"update",id:e.target.dataset.id,patch:{status:e.target.value}});}));
+  $$("#log .ed").forEach(b=>b.addEventListener("click",()=>{
+    EDITING=EDITING===b.dataset.id?null:b.dataset.id;renderLog();
+    const sel=$("#e-sport");
+    if(sel)sel.addEventListener("change",()=>{const v=sel.value;
+      $("#e-lab").textContent=v==="Đi bộ/Chạy bộ"?t("f.km"):v==="Thử thách thêm"?t("f.bonus"):t("f.min");});}));
+  $$("#log .cancelx").forEach(b=>b.addEventListener("click",()=>{EDITING=null;renderLog();}));
+  $$("#log .savex").forEach(b=>b.addEventListener("click",async()=>{
+    const i=+b.dataset.i,id=b.dataset.id,sp=$("#e-sport").value,val=Number($("#e-val").value||0);
+    if(sp==="Đi bộ/Chạy bộ"&&val<1)return toast(t("t.minKm"));
+    if(SESSION_SPORTS.includes(sp)&&val<30)return toast(t("t.minMin"));
+    if(sp==="Thử thách thêm"&&val<=0)return toast(t("t.needBonus"));
+    const patch={date:$("#e-date").value,sport:sp,
+      km:sp==="Đi bộ/Chạy bộ"?val:0,min:SESSION_SPORTS.includes(sp)?val:0,
+      bonus:sp==="Thử thách thêm"?val:0,proof:$("#e-proof").value};
+    Object.assign(S.logs[name][i],patch);save();EDITING=null;renderAll();toast(t("t.updated"));
+    await push({action:"update",id,patch});}));
+  $$("#log .dl").forEach(b=>b.addEventListener("click",async()=>{
+    const i=+b.dataset.i,id=b.dataset.id;
+    if(!confirm(t("t.confirmDel")+" "+fmtDate(S.logs[name][i].date)+"?"))return;
+    S.logs[name].splice(i,1);save();EDITING=null;renderAll();toast(t("t.deleted"));
+    await push({action:"delete",id});}));
+}
+
+/* ===== TEAM ===== */
+function renderTeam(){
+  const all=MEMBERS.map((m,i)=>({name:m,idx:i,...calc(m)}));
+  const sum=k=>all.reduce((a,b)=>a+b[k],0);
+  const total=sum("total"),pass=all.filter(a=>a.total>=GOAL).length;
+  const sp=new Set();all.forEach(a=>a.sports.forEach(s=>sp.add(s)));
+  $("#k-avg").textContent=nf(Math.round(total/MEMBERS.length));
+  $("#k-pass").textContent=pass+"/10";
+  $("#k-viral").textContent=nf(S.posts.length);
+  $("#k-sports").textContent=sp.size+"/4";
+
+  const ranked=[...all].sort((a,b)=>b.total-a.total);
+  const me=$("#sel-member").value;
+  const top=ranked.slice(0,3),rest=ranked.slice(3);
+  const podOrder=[top[1],top[0],top[2]],podCls=["pod2","pod1","pod3"],podNo=["2","1","3"];
+  $("#podium").innerHTML=podOrder.map((a,i)=>{
+    if(!a)return"";
+    const pct=Math.min(100,Math.round(a.total/GOAL*100));
+    return `<button class="pod ${podCls[i]}" data-m="${esc(a.name)}">
+      ${podCls[i]==="pod1"?'<div class="crown">👑</div>':""}
+      <span class="no">${podNo[i]}</span>
+      <div class="av">${esc(initials(a.name))}</div>
+      <div class="nm">${esc(a.name)}</div>
+      <div class="sc">${nf(a.total)}</div>
+      <div class="su">${pct}% ${esc(t("goal"))}</div>
+      <div style="position:relative;margin-top:8px"><span class="pill">${a.km?"🏃 "+nf(a.km)+" "+t("u.km"):a.ses?"🏸 "+a.ses+" "+t("u.ses"):"—"}</span></div>
+    </button>`;}).join("");
+
+  $("#ranklist").innerHTML=rest.map((a,i)=>{
+    const col=COLORS[RINGC[a.idx%5]],pct=Math.min(100,a.total/GOAL*100);
+    return `<button class="lbc${a.name===me?" me":""}" data-m="${esc(a.name)}" title="${esc(a.name)}">
+      <span class="lbtop"><span class="lbrank">${i+4}</span>
+        <span class="av2" style="background:${col}">${esc(initials(a.name))}</span></span>
+      <span class="lbname">${esc(shortName(a.name))}</span>
+      <span class="lbsc"><b style="color:${a.total>=GOAL?COLORS.green:"var(--ink)"}">${nf(a.total)}</b><span>/ 300</span></span>
+      <span class="rbar"><i style="width:${pct}%;background:${a.total>=GOAL?COLORS.green:col}"></i></span>
+    </button>`;}).join("");
+  $$("[data-m]").forEach(el=>el.addEventListener("click",()=>{
+    $("#sel-member").value=el.dataset.m;renderAll();window.scrollTo({top:0,behavior:"smooth"});}));
+
+  if(!$("#confetti").dataset.done){
+    const cols=[COLORS.blue,COLORS.red,COLORS.yellow,COLORS.green,"#ffffff"];
+    $("#confetti").innerHTML=Array.from({length:26},(_,i)=>
+      `<i style="left:${Math.round(Math.random()*100)}%;background:${cols[i%5]};animation-duration:${(4+Math.random()*5).toFixed(1)}s;animation-delay:-${(Math.random()*6).toFixed(1)}s"></i>`).join("");
+    $("#confetti").dataset.done="1";
+  }
+
+  const contributors=new Set();
+  MEMBERS.forEach(m=>{if(calc(m).sourced>0)contributors.add(m);});
+  S.posts.forEach(p=>{if(p.sourceFrom)contributors.add(p.sourceFrom);});
+  const U=t("track.m");
+  const amt=["10.000.000","5.000.000","4.000.000","3.000.000","3.000.000"];
+  const bgc=["bg-blue","bg-green","bg-yellow","bg-red","bg-black"];
+  const g=groupStats();
+  const figs=[nf(Math.round(total/MEMBERS.length))+" "+U[0],
+    g.n?g.avg+" "+U[1]:t("track.empty"),
+    sp.size+"/4 "+U[2],pass+"/10 "+U[3],
+    nf(S.posts.length)+" "+U[4]+(contributors.size?` · ${contributors.size}/10`:"")];
+  $("#prize-track").innerHTML=t("prizes").slice(0,5).map((p,i)=>
+    `<div class="prize"><span class="m ${bgc[i]}">${amt[i]}</span>
+     <div style="flex:1"><b>${esc(p[0])}</b><p>${esc(t("track.now"))}</p></div>
+     <b style="font-size:15px;white-space:nowrap">${esc(figs[i])}</b></div>`).join("");
+}
+
+/* ===== VIRAL ===== */
+$("#btn-post").addEventListener("click",async()=>{
+  const url=$("#p-url").value.trim();
+  if(!url)return toast(t("v.needUrl"));
+  const post={id:uid(),publisher:$("#p-publisher").value,date:$("#p-date").value,
+    platform:$("#p-platform").value,sourceFrom:$("#p-source").value,url,ts:Date.now()};
+  S.posts.push(post);save();$("#p-url").value="";renderAll();toast(t("t.added"));
+  if(api()){const b=$("#btn-post");b.disabled=true;await push({action:"post:add",post});b.disabled=false;}
+});
+$("#btn-folder").addEventListener("click",async()=>{
+  S.team.folder=$("#in-folder").value.trim();save();toast(t("t.saved"));
+  await push({action:"team",team:S.team});});
+$("#btn-open-folder").addEventListener("click",()=>{
+  const u=(S.team.folder||"").trim();
+  if(!u)return toast(t("v.needFolder"));
+  window.open(u,"_blank","noopener");});
+
+function renderViral(){
+  $("#in-folder").value=S.team.folder||"";
+  const sourced=MEMBERS.map(m=>({m,n:calc(m).sourced}));
+  const contribMembers=sourced.filter(x=>x.n>0).length;
+  $("#v-posts").textContent=nf(S.posts.length);
+  $("#v-src").textContent=contribMembers+"/10";
+  $("#v-photos").textContent=nf(sourced.reduce((a,b)=>a+b.n,0));
+  $("#v-count").textContent=S.posts.length+" "+t("v.posts");
+  const PLAT={Facebook:"🔵",Instagram:"🟣",TikTok:"⚫",LinkedIn:"🔷",Threads:"⚪",Zalo:"🔹"};
+  const posts=[...S.posts].sort((a,b)=>(a.date<b.date?1:-1));
+  $("#postlog").innerHTML=posts.length?posts.map(p=>
+    `<div class="item" style="color:${COLORS.red}"><span class="dot"></span>
+      <div class="main"><b style="color:var(--ink)">${PLAT[p.platform]||"📣"} ${esc(p.platform)} · ${esc(p.publisher)}</b>
+      <span>${fmtDate(p.date)} · 📷 ${esc(p.sourceFrom||"—")}${p.url?` · <a href="${esc(p.url)}" target="_blank" rel="noopener" style="color:${COLORS.red}">link</a>`:""}</span></div>
+      <button class="iconbtn dl pdel" data-id="${esc(p.id)}">✕</button></div>`).join("")
+    :`<div class="empty"><em>📣</em>${t("v.empty")}</div>`;
+  $$("#postlog .pdel").forEach(b=>b.addEventListener("click",async()=>{
+    if(!confirm(t("t.confirmDelPost")))return;
+    S.posts=S.posts.filter(p=>p.id!==b.dataset.id);save();renderAll();toast(t("t.deleted"));
+    await push({action:"post:delete",id:b.dataset.id});}));
+
+}
+
+/* ===== GROUP SESSIONS ===== */
+function groupStats(){
+  const n=S.sessions.length;
+  const sum=S.sessions.reduce((a,b)=>a+Number(b.members||0),0);
+  return {n,sum,avg:n?(Math.round(sum/n*10)/10):0,five:S.sessions.filter(x=>Number(x.members||0)>=5).length};
+}
+$("#g-date").value=new Date().toISOString().slice(0,10);
+$("#btn-group").addEventListener("click",async()=>{
+  const date=$("#g-date").value,act=$("#g-act").value,members=Number($("#g-members").value||0);
+  if(!date)return toast(t("t.pickDate"));
+  if(members<1)return toast(t("group.needMembers"));
+  const ses={id:uid(),date,activity:act,members,ts:Date.now()};
+  S.sessions.push(ses);save();$("#g-members").value="";renderAll();toast(t("t.added"));
+  if(api()){const b=$("#btn-group");b.disabled=true;await push({action:"group:add",session:ses});b.disabled=false;}
+});
+function renderGroup(){
+  const g=groupStats();
+  $("#g-avg").textContent=g.n?nf(g.avg):"0";
+  $("#g-five").textContent=g.five;
+  $("#g-count").textContent=g.n;
+  $("#g-listcount").textContent=g.n+" "+t("group.sessions");
+  const rows=[...S.sessions].sort((a,b)=>(a.date<b.date?1:-1));
+  const box=$("#grouplog");
+  if(!rows.length){box.innerHTML=`<div class="empty"><em>👥</em>${esc(t("group.empty"))}</div>`;return;}
+  box.innerHTML=rows.map(r=>{
+    const d=SPORT_DEF.find(x=>x.n===r.activity),col=d?COLORS[d.c]:COLORS.black;
+    const label=d?t(d.k):(!r.activity||r.activity==="other"?t("group.other"):r.activity);
+    const big=Number(r.members||0)>=5;
+    return `<div class="item" style="color:${col}"><span class="dot"></span>
+      <div class="main"><b style="color:var(--ink)">${d?d.icon:"👥"} ${esc(label)}</b>
+      <span>${fmtDate(r.date)}</span></div>
+      <span class="val" style="color:var(--ink)">${nf(r.members)} ${esc(t("group.people"))}</span>
+      ${big?`<span class="pill win">5+</span>`:""}
+      <button class="iconbtn dl gdel" data-id="${esc(r.id)}">✕</button></div>`;}).join("");
+  $$("#grouplog .gdel").forEach(b=>b.addEventListener("click",async()=>{
+    if(!confirm(t("t.confirmDelGroup")))return;
+    S.sessions=S.sessions.filter(x=>x.id!==b.dataset.id);save();renderAll();toast(t("t.deleted"));
+    await push({action:"group:delete",id:b.dataset.id});}));
+}
+
+function renderAll(){renderTeam();renderViral();renderGroup();renderMe();}
+
+applyLang();
+if(api()){setSync("cloud",t("sync.loading"));pull(true);}else setSync("local");
+</script>
+</body>
+</html>

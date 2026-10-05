@@ -1,0 +1,595 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Step Up 15+ · Hướng dẫn vận hành</title>
+<style>
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Regular.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Medium.woff2) format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-SemiBold.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Bold.woff2) format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-ExtraBold.woff2) format('woff2');font-weight:800;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Black.woff2) format('woff2');font-weight:900;font-display:swap}
+:root{--blue:#0b5ed7;--ink:#17181c;--red:#e0144c;--yellow:#f5a623;--green:#00a05a;
+  --muted:#767d8c;--line:#e8ecf3;--bg:#f6f8fc;--r:20px;--sh:0 2px 4px rgba(20,30,60,.04),0 12px 30px rgba(20,30,60,.07)}
+*{box-sizing:border-box}html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--ink);font-family:Metropolis,-apple-system,sans-serif;font-size:15px;line-height:1.5;-webkit-font-smoothing:antialiased}
+button,select,input{font:inherit}
+h1,h2,h3{margin:0;letter-spacing:-.02em}
+header{background:linear-gradient(150deg,#17181c,#2c3140);color:#fff;padding:30px 22px;position:relative}
+.hw{max-width:940px;margin:0 auto}
+header .eyebrow{font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:#ffd978}
+header h1{font-size:clamp(25px,4.6vw,36px);font-weight:900;margin-top:8px}
+header p{margin:8px 0 0;color:#aab4c8;font-size:14px;max-width:640px}
+header a.back{display:inline-block;margin-top:16px;color:#fff;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.22);
+  border-radius:999px;padding:8px 16px;font-size:13px;font-weight:700;text-decoration:none}
+.langsw{position:absolute;top:24px;right:22px;display:flex;background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.24);border-radius:999px;padding:3px}
+.langsw button{border:0;background:none;color:#c5cddd;font-size:12px;font-weight:800;padding:6px 13px;border-radius:999px;cursor:pointer}
+.langsw button.on{background:#fff;color:#17181c}
+main{max-width:940px;margin:0 auto;padding:26px 22px 80px}
+.panel{background:#fff;border-radius:var(--r);box-shadow:var(--sh);padding:24px;margin-bottom:18px}
+.panel>h2{font-size:18px;font-weight:800;margin-bottom:4px}
+.panel>h2+p{margin:0 0 18px;font-size:13.5px;color:var(--muted)}
+.steps{counter-reset:s}
+#alt-causes .step::before{display:none}
+.step{display:flex;gap:14px;padding:14px 0;border-top:1px solid var(--line)}
+.step:first-child{border-top:0;padding-top:2px}
+.step::before{counter-increment:s;content:counter(s);flex:none;width:28px;height:28px;border-radius:50%;background:var(--ink);color:#fff;font-weight:800;font-size:13px;display:flex;align-items:center;justify-content:center}
+.step b{display:block;font-size:14.5px;margin-bottom:2px}
+.step p{margin:0;font-size:13.5px;color:var(--muted);word-break:break-word}
+pre{background:#17181c;color:#e9edf5;border-radius:14px;padding:16px;overflow:auto;font-size:11.5px;line-height:1.5;font-family:ui-monospace,Menlo,monospace;max-height:420px}
+code{background:#eef1f7;border-radius:6px;padding:2px 6px;font-size:12.5px;font-family:ui-monospace,Menlo,monospace;word-break:break-all}
+.btn{border:0;border-radius:13px;padding:12px 22px;font-size:14px;font-weight:800;cursor:pointer;font-family:inherit;transition:.18s}
+.btn-main{background:var(--ink);color:#fff}.btn-main:hover{background:#000}
+.btn-go{background:var(--yellow);color:#4a3000}
+.btn-o{background:#fff;color:var(--ink);border:2px solid var(--line)}.btn-o:hover{border-color:var(--ink)}
+.btn-x{background:#fdeaf0;color:var(--red)}
+.row{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(165px,1fr));align-items:end}
+.fld{display:flex;flex-direction:column;gap:6px}
+.fld label{font-size:11.5px;font-weight:700;letter-spacing:.07em;text-transform:uppercase;color:var(--muted)}
+.fld select{border:2px solid var(--line);border-radius:13px;padding:11px 13px;font-weight:600;background:#fff;font-family:inherit}
+.note{background:#fff3df;border-left:3px solid var(--yellow);border-radius:0 12px 12px 0;padding:13px 16px;font-size:13.5px;margin-top:16px}
+.note.b{background:#e7f0ff;border-color:var(--blue)}
+table{border-collapse:collapse;width:100%;font-size:13.5px;margin-top:10px}
+th{background:#f1f4f9;text-align:left;font-size:11.5px;letter-spacing:.06em;text-transform:uppercase;color:var(--muted);padding:9px 11px}
+td{padding:9px 11px;border-top:1px solid var(--line)}
+.item{display:flex;align-items:center;gap:12px;padding:11px 14px;border-radius:14px;background:#f8fafd;border:1px solid var(--line);margin-bottom:7px}
+.item .main{flex:1;min-width:0}.item .main b{display:block;font-size:14px}
+.item .main span{font-size:12.5px;color:var(--muted)}
+.item .val{font-weight:800}
+#toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);background:var(--ink);color:#fff;font-size:14px;font-weight:600;padding:12px 22px;border-radius:999px;opacity:0;transition:.25s;pointer-events:none}
+#toast.on{opacity:1;transform:translate(-50%,0)}
+@media(max-width:620px){.langsw{position:static;display:inline-flex;margin-bottom:14px}main{padding:20px 16px 60px}.panel{padding:18px}}
+</style>
+</head>
+<body>
+<header><div class="hw">
+  <div class="langsw"><button data-lang="vi">VI</button><button data-lang="en" class="on">EN</button></div>
+  <div class="eyebrow">Step Up 15+ · Internal</div>
+  <h1 data-i18n="title"></h1>
+  <p data-i18n="sub"></p>
+  <a class="back" href="index.html" data-i18n="back"></a>
+</div></header>
+
+<main>
+  <div class="panel">
+    <h2 data-i18n="where.t"></h2><p data-i18n="where.s"></p>
+    <table><thead><tr><th></th><th data-i18n="where.c1"></th><th data-i18n="where.c2"></th></tr></thead>
+      <tbody id="where-tb"></tbody></table>
+    <div class="note" data-i18n="where.note"></div>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="app.t"></h2><p data-i18n="app.s"></p>
+    <table><thead><tr><th data-i18n="app.c1"></th><th data-i18n="app.c2"></th></tr></thead>
+      <tbody id="app-tb"></tbody></table>
+    <div class="note b" data-i18n="app.note"></div>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="gs.t"></h2><p data-i18n="gs.s"></p>
+    <div class="steps" id="gs-steps"></div>
+    <div style="display:flex;align-items:center;gap:12px;margin:20px 0 10px;flex-wrap:wrap">
+      <h3 style="font-size:15px;font-weight:800" data-i18n="gs.code"></h3>
+      <button class="btn btn-o" style="padding:7px 15px;font-size:12.5px" id="btn-copy" data-i18n="gs.copy"></button>
+    </div>
+    <pre id="gs-code"></pre>
+    <div class="note b" data-i18n="gs.note"></div>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="alt.t"></h2><p data-i18n="alt.s"></p>
+    <div id="alt-causes"></div>
+    <div class="note" data-i18n="alt.note"></div>
+    <h3 style="font-size:15px;font-weight:800;margin:22px 0 10px" data-i18n="alt.planB"></h3>
+    <div class="steps" id="alt-steps"></div>
+    <div style="display:flex;align-items:center;gap:12px;margin:20px 0 10px;flex-wrap:wrap">
+      <h3 style="font-size:15px;font-weight:800" data-i18n="alt.code"></h3>
+      <button class="btn btn-o" style="padding:7px 15px;font-size:12.5px" id="btn-copy-alt" data-i18n="gs.copy"></button>
+    </div>
+    <pre id="alt-gs-code"></pre>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="sheet.t"></h2><p data-i18n="sheet.s"></p>
+    <table><thead><tr><th data-i18n="sheet.c1"></th><th data-i18n="sheet.c2"></th></tr></thead>
+      <tbody id="sheet-tb"></tbody></table>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="gh.t"></h2><p data-i18n="gh.s"></p>
+    <div class="steps" id="gh-steps"></div>
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="file.t"></h2><p data-i18n="file.s"></p>
+    <div class="row">
+      <div class="fld"><label data-i18n="file.member"></label><select id="sel-exp"></select></div>
+      <button class="btn btn-go" id="btn-exp-one" data-i18n="file.one"></button>
+      <button class="btn btn-main" id="btn-imp" data-i18n="file.imp"></button>
+      <button class="btn btn-o" id="btn-exp-json" data-i18n="file.all"></button>
+      <button class="btn btn-o" id="btn-exp-csv" data-i18n="file.csv"></button>
+    </div>
+    <input type="file" id="file-imp" accept=".json" multiple style="display:none">
+  </div>
+
+  <div class="panel">
+    <h2 data-i18n="status.t"></h2><p data-i18n="status.s"></p>
+    <div id="status-list"></div>
+    <div class="note" data-i18n="status.note"></div>
+    <button class="btn btn-x" style="width:100%;margin-top:14px" id="btn-reset" data-i18n="reset"></button>
+  </div>
+</main>
+<div id="toast"></div>
+
+<script>
+const MEMBERS=["Park Jinho","Trần Việt Anh Duy","Nguyễn Thị Ngọc Hân","Phạm Huỳnh Phương Thảo",
+"Phạm Trần Mai Phương","Nguyễn Thị Ánh Đào","Huỳnh Thị Sen","Nguyễn Thị Kim Tiền",
+"Huỳnh Trung Nghĩa","Eun Cho"];
+const SESSION_SPORTS=["Cầu lông","Bóng đá","Pickleball"];
+const WR=[[500,500],[400,400],[300,300],[200,200],[100,100]];
+const BFP=[[78,780],[65,650],[52,520],[26,260],[13,130]];
+const KEY="stepup15.v1",GOAL=300;
+
+const GS_CODE=`const SHEET='Log', POSTS='Posts', GROUP='Group', CFG='Config';
+const COLS=['id','member','date','sport','km','min','bonus','proof','status','createdAt'];
+const PCOLS=['id','publisher','date','platform','sourceFrom','url','createdAt'];
+const GCOLS=['id','date','activity','members','createdAt'];
+
+function ss(){return SpreadsheetApp.getActiveSpreadsheet();}
+function tab(name,cols){
+  var s=ss().getSheetByName(name);
+  if(!s){s=ss().insertSheet(name);s.appendRow(cols);s.setFrozenRows(1);}
+  return s;}
+function sheet(){return tab(SHEET,COLS);}
+function posts(){return tab(POSTS,PCOLS);}
+function group(){return tab(GROUP,GCOLS);}
+function cfg(){return tab(CFG,['key','value']);}
+
+function fmt(d){
+  if(!d)return '';
+  if(Object.prototype.toString.call(d)==='[object Date]')
+    return Utilities.formatDate(d,Session.getScriptTimeZone(),'yyyy-MM-dd');
+  var s=String(d);
+  if(/^\\d{4}-\\d{2}-\\d{2}$/.test(s))return s;
+  var p=new Date(s);
+  if(!isNaN(p.getTime()))return Utilities.formatDate(p,Session.getScriptTimeZone(),'yyyy-MM-dd');
+  return s;}
+
+function readAll(){
+  var v=sheet().getDataRange().getValues(),rows=[];
+  for(var i=1;i<v.length;i++){
+    if(!v[i][0])continue;
+    rows.push({id:String(v[i][0]),member:v[i][1],date:fmt(v[i][2]),sport:v[i][3],
+      km:Number(v[i][4]||0),min:Number(v[i][5]||0),bonus:Number(v[i][6]||0),
+      proof:v[i][7]||'none',status:v[i][8]||'pending'});}
+  var p=posts().getDataRange().getValues(),plist=[];
+  for(var k=1;k<p.length;k++){
+    if(!p[k][0])continue;
+    plist.push({id:String(p[k][0]),publisher:p[k][1],date:fmt(p[k][2]),platform:p[k][3],
+      sourceFrom:p[k][4]||'',url:p[k][5]||''});}
+  var gv=group().getDataRange().getValues(),glist=[];
+  for(var q=1;q<gv.length;q++){
+    if(!gv[q][0])continue;
+    glist.push({id:String(gv[q][0]),date:fmt(gv[q][1]),activity:gv[q][2]||'',members:Number(gv[q][3]||0)});}
+  var c=cfg().getDataRange().getValues(),team={};
+  for(var j=1;j<c.length;j++){if(c[j][0])team[c[j][0]]=c[j][1];}
+  return {rows:rows,posts:plist,sessions:glist,team:team};}
+
+function out(o){return ContentService.createTextOutput(JSON.stringify(o))
+  .setMimeType(ContentService.MimeType.JSON);}
+function doGet(){return out(Object.assign({ok:true},readAll()));}
+
+function findRow(s,id){
+  var v=s.getDataRange().getValues();
+  for(var i=1;i<v.length;i++){if(String(v[i][0])===String(id))return i+1;}
+  return 0;}
+
+function doPost(e){
+  var lock=LockService.getScriptLock();lock.waitLock(20000);
+  try{
+    var b=JSON.parse(e.postData.contents);
+    if(b.action==='add'){
+      var r=b.row;
+      sheet().appendRow([r.id,r.member,r.date,r.sport,r.km||'',r.min||'',r.bonus||'',
+        r.proof||'none',r.status||'pending',new Date()]);
+    }
+    else if(b.action==='update'){
+      var s=sheet(),n=findRow(s,b.id);
+      if(n){Object.keys(b.patch||{}).forEach(function(k){
+        var c=COLS.indexOf(k);
+        if(c>0)s.getRange(n,c+1).setValue(b.patch[k]);});}
+    }
+    else if(b.action==='delete'){
+      var s2=sheet(),n2=findRow(s2,b.id);if(n2)s2.deleteRow(n2);
+    }
+    else if(b.action==='post:add'){
+      var p=b.post;
+      posts().appendRow([p.id,p.publisher,p.date,p.platform,p.sourceFrom||'',p.url||'',new Date()]);
+    }
+    else if(b.action==='group:add'){
+      var g=b.session;
+      group().appendRow([g.id,g.date,g.activity||'',g.members||0,new Date()]);
+    }
+    else if(b.action==='group:delete'){
+      var gs=group(),n4=findRow(gs,b.id);if(n4)gs.deleteRow(n4);
+    }
+    else if(b.action==='post:delete'){
+      var ps=posts(),n3=findRow(ps,b.id);if(n3)ps.deleteRow(n3);
+    }
+    else if(b.action==='team'){
+      var c=cfg(),cv=c.getDataRange().getValues(),keys={};
+      for(var j=1;j<cv.length;j++)keys[cv[j][0]]=j+1;
+      Object.keys(b.team||{}).forEach(function(k){
+        if(keys[k])c.getRange(keys[k],2).setValue(b.team[k]);
+        else c.appendRow([k,b.team[k]]);});
+    }
+    return out(Object.assign({ok:true},readAll()));
+  }catch(err){return out({ok:false,error:String(err)});}
+  finally{lock.releaseLock();}}`;
+
+const ALT_CODE=`const SHEET='Log', POSTS='Posts', GROUP='Group', CFG='Config';
+const COLS=['id','member','date','sport','km','min','bonus','proof','status','createdAt'];
+const PCOLS=['id','publisher','date','platform','sourceFrom','url','createdAt'];
+const GCOLS=['id','date','activity','members','createdAt'];
+
+// Dán ID của Google Sheet vào đây / paste your Google Sheet ID here.
+// ID nằm giữa /d/ và /edit trong URL:
+// https://docs.google.com/spreadsheets/d/<<< ID NẰM Ở ĐÂY >>>/edit
+const SHEET_ID = 'PASTE_YOUR_SHEET_ID_HERE';
+function ss(){return SpreadsheetApp.openById(SHEET_ID);}
+function tab(name,cols){
+  var s=ss().getSheetByName(name);
+  if(!s){s=ss().insertSheet(name);s.appendRow(cols);s.setFrozenRows(1);}
+  return s;}
+function sheet(){return tab(SHEET,COLS);}
+function posts(){return tab(POSTS,PCOLS);}
+function group(){return tab(GROUP,GCOLS);}
+function cfg(){return tab(CFG,['key','value']);}
+
+function fmt(d){
+  if(!d)return '';
+  if(Object.prototype.toString.call(d)==='[object Date]')
+    return Utilities.formatDate(d,Session.getScriptTimeZone(),'yyyy-MM-dd');
+  var s=String(d);
+  if(/^\\d{4}-\\d{2}-\\d{2}$/.test(s))return s;
+  var p=new Date(s);
+  if(!isNaN(p.getTime()))return Utilities.formatDate(p,Session.getScriptTimeZone(),'yyyy-MM-dd');
+  return s;}
+
+function readAll(){
+  var v=sheet().getDataRange().getValues(),rows=[];
+  for(var i=1;i<v.length;i++){
+    if(!v[i][0])continue;
+    rows.push({id:String(v[i][0]),member:v[i][1],date:fmt(v[i][2]),sport:v[i][3],
+      km:Number(v[i][4]||0),min:Number(v[i][5]||0),bonus:Number(v[i][6]||0),
+      proof:v[i][7]||'none',status:v[i][8]||'pending'});}
+  var p=posts().getDataRange().getValues(),plist=[];
+  for(var k=1;k<p.length;k++){
+    if(!p[k][0])continue;
+    plist.push({id:String(p[k][0]),publisher:p[k][1],date:fmt(p[k][2]),platform:p[k][3],
+      sourceFrom:p[k][4]||'',url:p[k][5]||''});}
+  var gv=group().getDataRange().getValues(),glist=[];
+  for(var q=1;q<gv.length;q++){
+    if(!gv[q][0])continue;
+    glist.push({id:String(gv[q][0]),date:fmt(gv[q][1]),activity:gv[q][2]||'',members:Number(gv[q][3]||0)});}
+  var c=cfg().getDataRange().getValues(),team={};
+  for(var j=1;j<c.length;j++){if(c[j][0])team[c[j][0]]=c[j][1];}
+  return {rows:rows,posts:plist,sessions:glist,team:team};}
+
+function out(o){return ContentService.createTextOutput(JSON.stringify(o))
+  .setMimeType(ContentService.MimeType.JSON);}
+function doGet(){return out(Object.assign({ok:true},readAll()));}
+
+function findRow(s,id){
+  var v=s.getDataRange().getValues();
+  for(var i=1;i<v.length;i++){if(String(v[i][0])===String(id))return i+1;}
+  return 0;}
+
+function doPost(e){
+  var lock=LockService.getScriptLock();lock.waitLock(20000);
+  try{
+    var b=JSON.parse(e.postData.contents);
+    if(b.action==='add'){
+      var r=b.row;
+      sheet().appendRow([r.id,r.member,r.date,r.sport,r.km||'',r.min||'',r.bonus||'',
+        r.proof||'none',r.status||'pending',new Date()]);
+    }
+    else if(b.action==='update'){
+      var s=sheet(),n=findRow(s,b.id);
+      if(n){Object.keys(b.patch||{}).forEach(function(k){
+        var c=COLS.indexOf(k);
+        if(c>0)s.getRange(n,c+1).setValue(b.patch[k]);});}
+    }
+    else if(b.action==='delete'){
+      var s2=sheet(),n2=findRow(s2,b.id);if(n2)s2.deleteRow(n2);
+    }
+    else if(b.action==='post:add'){
+      var p=b.post;
+      posts().appendRow([p.id,p.publisher,p.date,p.platform,p.sourceFrom||'',p.url||'',new Date()]);
+    }
+    else if(b.action==='group:add'){
+      var g=b.session;
+      group().appendRow([g.id,g.date,g.activity||'',g.members||0,new Date()]);
+    }
+    else if(b.action==='group:delete'){
+      var gs=group(),n4=findRow(gs,b.id);if(n4)gs.deleteRow(n4);
+    }
+    else if(b.action==='post:delete'){
+      var ps=posts(),n3=findRow(ps,b.id);if(n3)ps.deleteRow(n3);
+    }
+    else if(b.action==='team'){
+      var c=cfg(),cv=c.getDataRange().getValues(),keys={};
+      for(var j=1;j<cv.length;j++)keys[cv[j][0]]=j+1;
+      Object.keys(b.team||{}).forEach(function(k){
+        if(keys[k])c.getRange(keys[k],2).setValue(b.team[k]);
+        else c.appendRow([k,b.team[k]]);});
+    }
+    return out(Object.assign({ok:true},readAll()));
+  }catch(err){return out({ok:false,error:String(err)});}
+  finally{lock.releaseLock();}}`;
+
+const I18N={vi:{
+ title:"Hướng dẫn vận hành",
+ sub:"Trang nội bộ: nơi lưu dữ liệu, cách nối Google Sheets, cách publish và công cụ xuất/nhập file. Không hiển thị trong web của team.",
+ back:"← Về trang Step Up 15+",
+ "where.t":"Dữ liệu được lưu ở đâu?",
+ "where.s":"Trang web là file tĩnh, có 2 chế độ lưu trữ.",
+ "where.c1":"Mặc định","where.c2":"Sau khi nối Google Sheets",
+ whereRows:[["Nơi lưu","localStorage của từng trình duyệt","Google Sheet của team"],
+            ["Chia sẻ chung","❌ mỗi người một bản riêng","✅ cả team chung một bảng"],
+            ["Cần server","Không","Không — Apps Script lo"],
+            ["Chi phí","0đ","0đ"],
+            ["Mất dữ liệu khi xóa cache","Có","Không"]],
+ "where.note":"GitHub Pages chỉ host file tĩnh, không có database. Muốn cả team nhập chung một chỗ thì bắt buộc làm bước Google Sheets bên dưới.",
+ "app.t":"Cấu trúc web của team","app.s":"index.html gồm 3 tab, mặc định hiển thị tiếng Anh.",
+ "app.c1":"Tab","app.c2":"Nội dung",
+ appRows:[["My log","Chọn tên → Top 3 podium → bảng xếp hạng → ghi nhận buổi tập → tiến độ → lịch sử (sửa/xóa từng bản ghi)."],
+          ["Viral","Luồng 3 bước, link kho ảnh chung, form ghi nhận bài đăng MXH (Mai Phương · Phương Thảo · Ánh Đào), danh sách bài đã đăng."],
+          ["Scoring","Chỉ số team, đường đua giải thưởng, buổi tập chung (ngày · hoạt động · số người), thang điểm, luật chơi, giải thưởng."]],
+ "app.note":"Minh chứng: mỗi người chọn Chưa nộp / 📁 Đã up lên Drive / 💬 Đã gửi group Zalo — chọn Drive hoặc Zalo thì bản ghi tự chuyển sang Đã xác minh. Không có bước duyệt trung gian, mọi bản ghi đều được tính điểm. Chỉ số Best Team Engagement tính tự động từ bảng buổi tập chung.",
+ "gs.t":"Nối Google Sheets — 9 bước (~10 phút)",
+ "gs.s":"Miễn phí, không cần server. Làm 1 lần, cả team dùng chung.",
+ gsSteps:[
+  ["Tạo Google Sheet mới","Mở sheets.new, đặt tên VD \"Step Up 15+ Data\". Không cần tạo cột — code tự tạo."],
+  ["Mở Apps Script","Trong Sheet: menu Tiện ích mở rộng (Extensions) → Apps Script."],
+  ["Dán code","Xóa hết nội dung Code.gs, dán toàn bộ đoạn code bên dưới, bấm biểu tượng Lưu."],
+  ["Triển khai","Bấm Triển khai (Deploy) → Tùy chọn triển khai mới (New deployment) → chọn loại Ứng dụng web (Web app)."],
+  ["Cấu hình quyền","Thực thi với tư cách: Tôi (Me). Người có quyền truy cập: Bất kỳ ai (Anyone). Bấm Triển khai."],
+  ["Cấp quyền","Google cảnh báo → Nâng cao (Advanced) → Đi tới dự án (Go to project) → Cho phép (Allow). Script của chính bạn nên an toàn."],
+  ["Copy URL Web App","Dạng https://script.google.com/macros/s/..../exec"],
+  ["Gắn URL vào web","Mở file index.html, sửa dòng const API_URL = \"\"; thành const API_URL = \"<URL vừa copy>\"; rồi upload lên GitHub."],
+  ["Gửi link cho team","Mọi người nhập điểm, dữ liệu chảy thẳng về Sheet. Thanh trạng thái trên web đổi thành \"Đang lưu trên Google Sheets\"."]],
+ "gs.code":"Code dán vào Apps Script","gs.copy":"Copy code","gs.copied":"Đã copy code",
+ "gs.note":"Mỗi lần sửa code Apps Script phải Deploy → Manage deployments → Edit → New version thì URL cũ mới nhận code mới. \"Anyone\" nghĩa là ai có URL đều ghi được — URL dài và ngẫu nhiên, đủ an toàn cho nội bộ.",
+ "alt.t":"Không mở được Apps Script?","alt.s":"Các nguyên nhân thường gặp — kiểm tra lần lượt từ trên xuống.",
+ altCauses:[["🏢","Tài khoản công ty bị chặn","Google Workspace của công ty có thể tắt Apps Script cho toàn tổ chức. Thử lại bằng tài khoản Gmail cá nhân — đây là nguyên nhân phổ biến nhất."],
+            ["📱","Đang mở trên điện thoại","App Google Sheets trên điện thoại không có menu Tiện ích mở rộng. Phải mở bằng trình duyệt trên máy tính."],
+            ["👁","Chỉ có quyền xem","Nếu file do người khác chia sẻ và bạn chỉ là Người xem / Người nhận xét thì menu Apps Script không hiện. Phải là chủ sở hữu hoặc có quyền Chỉnh sửa — tốt nhất là tự tạo Sheet mới."],
+            ["📄","File không phải Google Sheet","Nếu đó là file .xlsx tải lên Drive thì không có Apps Script. Mở file → Tệp → Lưu dưới dạng Google Trang tính."],
+            ["🔎","Menu nằm chỗ khác","Giao diện tiếng Việt: Tiện ích mở rộng → Apps Script. Giao diện tiếng Anh: Extensions → Apps Script. Nếu menu bị thu gọn, mở rộng cửa sổ trình duyệt."]],
+ "alt.note":"Cách thử nhanh: mở script.google.com. Nếu trang này cũng không vào được hoặc báo bị quản trị viên chặn, thì tài khoản bạn đang dùng không được phép dùng Apps Script — chuyển sang tài khoản Gmail cá nhân.",
+ "alt.planB":"Phương án B: tạo script độc lập (không cần menu trong Sheet)",
+ altSteps:[["Mở script.google.com","Đăng nhập bằng tài khoản có quyền sửa Google Sheet. Bấm New project / Dự án mới."],
+           ["Dán code bên dưới","Xóa hết nội dung Code.gs rồi dán toàn bộ đoạn code Phương án B."],
+           ["Điền SHEET_ID","Mở Google Sheet, copy đoạn ID trong URL nằm giữa /d/ và /edit, dán vào dòng SHEET_ID ở đầu code."],
+           ["Deploy như bình thường","Deploy → New deployment → Web app → Execute as: Me · Who has access: Anyone → Deploy → cấp quyền."],
+           ["Copy URL và gắn vào index.html","Giống bước 7–8 phía trên."]],
+ "alt.code":"Code Phương án B (bản standalone)",
+ "sheet.t":"Sheet sẽ tự sinh 4 tab",
+ "sheet.s":"HR có thể sửa trực tiếp trong Sheet; bấm Tải lại trên web để cập nhật.",
+ "sheet.c1":"Tab","sheet.c2":"Cột",
+ sheetRows:[["Log","id · member · date · sport · km · min · bonus · proof · status · createdAt"],
+            ["Posts","id · publisher · date · platform · sourceFrom · url · createdAt"],
+            ["Group","id · date · activity · members · createdAt"],
+            ["Config","key · value (folder)"]],
+ "gh.t":"Publish lên GitHub Pages","gh.s":"Nhớ upload đủ cả thư mục fonts/ thì chữ Metropolis mới hiện.",
+ ghSteps:[["Tạo repo mới","Upload index.html, huong-dan.html và thư mục fonts/ — giữ nguyên cấu trúc thư mục."],
+          ["Bật Pages","Settings → Pages → Deploy from a branch → main / (root) → Save."],
+          ["Gửi link index cho team","https://<tài-khoản>.github.io/<repo>/"],
+          ["Trang này là link riêng","https://<tài-khoản>.github.io/<repo>/huong-dan.html — không có trong menu của team."]],
+ "file.t":"Xuất / nhập file","file.s":"Dùng khi chưa nối Google Sheets, hoặc để backup và mở bằng Excel.",
+ "file.member":"Thành viên","file.one":"⤓ Xuất 1 người","file.imp":"⤒ Gộp file JSON",
+ "file.all":"⤓ Xuất toàn team","file.csv":"⤓ Xuất CSV",
+ "status.t":"Tình trạng dữ liệu trên máy này","status.s":"Đọc từ localStorage của trình duyệt đang mở.",
+ "status.note":"Nếu web hiện số liệu lạ dù chưa nhập gì, đó là dữ liệu thử của những lần mở trước còn lưu trong trình duyệt. Bấm nút đỏ bên dưới để xóa sạch trước khi gửi link cho team. Sau khi nối Google Sheets thì mỗi lần mở web sẽ tải lại dữ liệu thật từ Sheet.",
+ reset:"Xóa toàn bộ dữ liệu trên máy này",
+ "t.exported":"Đã xuất file","t.merged":"Đã gộp","t.records":"bản ghi","t.bad":"file lỗi",
+ "t.cleared":"Đã xóa toàn bộ dữ liệu","t.confirm":"Xóa toàn bộ dữ liệu trên máy này? Nên xuất file trước.",
+ "s.none":"chưa có dữ liệu","s.records":"bản ghi","s.posts":"bài đăng"
+},en:{
+ title:"Operations guide",
+ sub:"Internal page: where data lives, how to connect Google Sheets, how to publish, plus export/import tools. Not linked from the team's app.",
+ back:"← Back to Step Up 15+",
+ "where.t":"Where is the data stored?",
+ "where.s":"The app is a static file with two storage modes.",
+ "where.c1":"Default","where.c2":"After connecting Sheets",
+ whereRows:[["Storage","Each browser's localStorage","Your team's Google Sheet"],
+            ["Shared","❌ separate copy per person","✅ one table for everyone"],
+            ["Server needed","No","No — Apps Script handles it"],
+            ["Cost","Free","Free"],
+            ["Lost when clearing cache","Yes","No"]],
+ "where.note":"GitHub Pages only serves static files — there is no database. A shared data store requires the Google Sheets step below.",
+ "app.t":"How the team app is structured","app.s":"index.html has 3 tabs and opens in English by default.",
+ "app.c1":"Tab","app.c2":"Contents",
+ appRows:[["My log","Pick your name → top 3 podium → leaderboard → log a session → progress → history (edit/delete each record)."],
+          ["Viral","The 3-step flow, shared folder link, form to log social posts (Mai Phương · Phương Thảo · Ánh Đào), list of published posts."],
+          ["Scoring","Team figures, prize race, group sessions (date · activity · people), scoring ladders, rules, prizes."]],
+ "app.note":"Proof: each member picks Not yet / 📁 Uploaded to Drive / 💬 Sent to Zalo group — Drive or Zalo flips the record to Verified. No approval step, and every record counts towards the score. The Best Team Engagement figure is computed from the group-session table.",
+ "gs.t":"Connect Google Sheets — 9 steps (~10 min)",
+ "gs.s":"Free, no server. Set it up once for the whole team.",
+ gsSteps:[
+  ["Create a new Google Sheet","Open sheets.new, name it e.g. \"Step Up 15+ Data\". No columns needed — the script creates them."],
+  ["Open Apps Script","In the Sheet: Extensions → Apps Script."],
+  ["Paste the code","Delete everything in Code.gs, paste the code below, click Save."],
+  ["Deploy","Deploy → New deployment → select type Web app."],
+  ["Set permissions","Execute as: Me. Who has access: Anyone. Click Deploy."],
+  ["Authorize","Google warns you → Advanced → Go to project → Allow. It's your own script, so it's safe."],
+  ["Copy the Web App URL","It looks like https://script.google.com/macros/s/..../exec"],
+  ["Put the URL in the app","Edit index.html, change const API_URL = \"\"; to const API_URL = \"<your URL>\"; then upload to GitHub."],
+  ["Share the link","Everyone logs points and the data flows into the Sheet. The app's status bar switches to \"Saving to Google Sheets\"."]],
+ "gs.code":"Code to paste into Apps Script","gs.copy":"Copy code","gs.copied":"Code copied",
+ "gs.note":"After editing the Apps Script you must Deploy → Manage deployments → Edit → New version for the existing URL to pick up the change. \"Anyone\" means anyone holding the URL can write — the URL is long and random, which is fine internally.",
+ "alt.t":"Can't open Apps Script?","alt.s":"The usual causes — check them top to bottom.",
+ altCauses:[["🏢","Your work account blocks it","A company Google Workspace can disable Apps Script org-wide. Try again with a personal Gmail account — this is by far the most common cause."],
+            ["📱","You're on a phone","The mobile Google Sheets app has no Extensions menu. Open the Sheet in a desktop browser."],
+            ["👁","You only have view access","If someone shared the file and you are a Viewer / Commenter, the Apps Script menu is hidden. You need Editor access or, better, create your own Sheet."],
+            ["📄","It isn't a Google Sheet","An .xlsx uploaded to Drive has no Apps Script. Open it → File → Save as Google Sheets."],
+            ["🔎","The menu is elsewhere","English UI: Extensions → Apps Script. Vietnamese UI: Tiện ích mở rộng → Apps Script. Widen the browser window if the menu bar is collapsed."]],
+ "alt.note":"Quick test: open script.google.com. If that page is also blocked or says your administrator disabled it, the account simply can't use Apps Script — switch to a personal Gmail account.",
+ "alt.planB":"Plan B: a standalone script (no Sheet menu needed)",
+ altSteps:[["Open script.google.com","Sign in with an account that can edit the Sheet. Click New project."],
+           ["Paste the Plan B code","Delete everything in Code.gs and paste the standalone code below."],
+           ["Fill in SHEET_ID","Open the Sheet and copy the ID from the URL, between /d/ and /edit, into the SHEET_ID line at the top of the code."],
+           ["Deploy as usual","Deploy → New deployment → Web app → Execute as: Me · Who has access: Anyone → Deploy → authorize."],
+           ["Copy the URL into index.html","Same as steps 7–8 above."]],
+ "alt.code":"Plan B code (standalone version)",
+ "sheet.t":"The Sheet auto-creates 4 tabs",
+ "sheet.s":"HR can edit the Sheet directly; hit Refresh in the app to pull changes.",
+ "sheet.c1":"Tab","sheet.c2":"Columns",
+ sheetRows:[["Log","id · member · date · sport · km · min · bonus · proof · status · createdAt"],
+            ["Posts","id · publisher · date · platform · sourceFrom · url · createdAt"],
+            ["Group","id · date · activity · members · createdAt"],
+            ["Config","key · value (folder)"]],
+ "gh.t":"Publish on GitHub Pages","gh.s":"Upload the fonts/ folder too, or Metropolis won't render.",
+ ghSteps:[["Create a new repo","Upload index.html, huong-dan.html and the fonts/ folder, keeping the structure."],
+          ["Enable Pages","Settings → Pages → Deploy from a branch → main / (root) → Save."],
+          ["Share the index link","https://<account>.github.io/<repo>/"],
+          ["This page is a separate link","https://<account>.github.io/<repo>/huong-dan.html — not in the team's menu."]],
+ "file.t":"Export / import files","file.s":"For when Sheets isn't connected, or for backups and Excel.",
+ "file.member":"Member","file.one":"⤓ Export one","file.imp":"⤒ Merge JSON",
+ "file.all":"⤓ Export all","file.csv":"⤓ Export CSV",
+ "status.t":"Data on this device","status.s":"Read from this browser's localStorage.",
+ "status.note":"If the app shows figures you never entered, that is test data from earlier sessions still cached in this browser. Hit the red button below to wipe it before sharing the link. Once Google Sheets is connected, every load pulls the real data from the Sheet.",
+ reset:"Clear all data on this device",
+ "t.exported":"File exported","t.merged":"Merged","t.records":"records","t.bad":"invalid files",
+ "t.cleared":"All local data cleared","t.confirm":"Clear all data on this device? Export a backup first.",
+ "s.none":"no data yet","s.records":"records","s.posts":"posts"
+}};
+let LANG=localStorage.getItem("stepup15.lang")||"en";
+const t=k=>I18N[LANG][k]??I18N.vi[k]??k;
+const $=s=>document.querySelector(s),$$=s=>[...document.querySelectorAll(s)];
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let tmr;function toast(m){const e=$("#toast");e.textContent=m;e.classList.add("on");clearTimeout(tmr);tmr=setTimeout(()=>e.classList.remove("on"),2500);}
+
+let S={logs:{},posts:[],sessions:[],team:{}};
+function load(){
+  try{const raw=localStorage.getItem(KEY);if(raw)S=Object.assign({logs:{},posts:[],sessions:[],team:{}},JSON.parse(raw));}catch(e){}
+  MEMBERS.forEach(m=>{if(!Array.isArray(S.logs[m]))S.logs[m]=[];});
+  if(!Array.isArray(S.posts))S.posts=[];
+  if(!Array.isArray(S.sessions))S.sessions=[];}
+const save=()=>{try{localStorage.setItem(KEY,JSON.stringify(S));}catch(e){}};
+load();
+
+function lvOf(v,tb){const h=tb.find(r=>v>=r[0]);return h?h[1]:0;}
+function calc(m){
+  let km=0,ses=0,bonus=0;
+  (S.logs[m]||[]).forEach(r=>{
+    if(r.sport==="Đi bộ/Chạy bộ")km+=Number(r.km||0);
+    else if(r.sport==="Thử thách thêm")bonus+=Number(r.bonus||0);
+    else if(SESSION_SPORTS.includes(r.sport))ses++;});
+  return {km,ses,bonus,total:lvOf(km,WR)+lvOf(ses,BFP)+bonus};}
+
+function applyLang(){
+  document.documentElement.lang=LANG;localStorage.setItem("stepup15.lang",LANG);
+  $$(".langsw button").forEach(b=>b.classList.toggle("on",b.dataset.lang===LANG));
+  $$("[data-i18n]").forEach(el=>el.textContent=t(el.dataset.i18n));
+  $("#where-tb").innerHTML=t("whereRows").map(r=>`<tr><td><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td><td>${esc(r[2])}</td></tr>`).join("");
+  $("#app-tb").innerHTML=t("appRows").map(r=>`<tr><td><b>${esc(r[0])}</b></td><td>${esc(r[1])}</td></tr>`).join("");
+  $("#sheet-tb").innerHTML=t("sheetRows").map(r=>`<tr><td><b>${esc(r[0])}</b></td><td><code>${esc(r[1])}</code></td></tr>`).join("");
+  const st=a=>a.map(x=>`<div class="step"><div><b>${esc(x[0])}</b><p>${esc(x[1])}</p></div></div>`).join("");
+  $("#gs-steps").innerHTML=st(t("gsSteps"));
+  $("#alt-steps").innerHTML=st(t("altSteps"));
+  $("#alt-causes").innerHTML=t("altCauses").map(c=>
+    `<div class="step" style="padding:13px 0"><div style="flex:none;font-size:20px;width:28px;text-align:center">${c[0]}</div>
+     <div><b>${esc(c[1])}</b><p>${esc(c[2])}</p></div></div>`).join("");
+  $("#alt-gs-code").textContent=ALT_CODE;
+  $("#gh-steps").innerHTML=st(t("ghSteps"));
+  $("#gs-code").textContent=GS_CODE;
+  renderStatus();
+}
+$$(".langsw button").forEach(b=>b.addEventListener("click",()=>{LANG=b.dataset.lang;applyLang();}));
+$("#sel-exp").innerHTML=MEMBERS.map(m=>`<option value="${esc(m)}">${esc(m)}</option>`).join("");
+
+function renderStatus(){
+  $("#status-list").innerHTML=MEMBERS.map(m=>{
+    const rows=S.logs[m]||[],c=calc(m);
+    return `<div class="item"><div class="main"><b>${esc(m)}</b>
+      <span>${rows.length?rows.length+" "+t("s.records"):t("s.none")}</span></div>
+      <span class="val">${c.total}</span></div>`;}).join("")+
+    `<div class="item"><div class="main"><b>📣 Posts</b><span>${S.posts.length} ${t("s.posts")}</span></div></div>`;
+}
+$("#btn-copy-alt").addEventListener("click",async()=>{
+  try{await navigator.clipboard.writeText(ALT_CODE);toast(t("gs.copied"));}catch(e){
+    const r=document.createRange();r.selectNode($("#alt-gs-code"));getSelection().removeAllRanges();getSelection().addRange(r);}});
+$("#btn-copy").addEventListener("click",async()=>{
+  try{await navigator.clipboard.writeText(GS_CODE);toast(t("gs.copied"));}catch(e){
+    const r=document.createRange();r.selectNode($("#gs-code"));getSelection().removeAllRanges();getSelection().addRange(r);}});
+
+function dl(n,txt,ty){const b=new Blob([txt],{type:ty}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download=n;a.click();URL.revokeObjectURL(u);}
+const stamp=()=>new Date().toISOString().slice(0,10).replace(/-/g,"");
+$("#btn-exp-one").addEventListener("click",()=>{const m=$("#sel-exp").value;
+  dl(`StepUp15_${m.replace(/\s+/g,"")}_${stamp()}.json`,
+    JSON.stringify({app:"stepup15",version:2,exported:new Date().toISOString(),logs:{[m]:S.logs[m]}},null,2),"application/json");
+  toast(t("t.exported"));});
+$("#btn-exp-json").addEventListener("click",()=>{
+  dl(`StepUp15_team_${stamp()}.json`,
+    JSON.stringify({app:"stepup15",version:2,exported:new Date().toISOString(),logs:S.logs,posts:S.posts,team:S.team},null,2),"application/json");
+  toast(t("t.exported"));});
+$("#btn-exp-csv").addEventListener("click",()=>{
+  const q=v=>`"${String(v??"").replace(/"/g,'""')}"`;
+  const L=[["Member","Date","Sport","KM","Minutes","Bonus","Proof","Status"].map(q).join(",")];
+  MEMBERS.forEach(m=>(S.logs[m]||[]).forEach(r=>L.push(
+    [m,r.date,r.sport,r.km||"",r.min||"",r.bonus||"",r.proof||"none",r.status||""].map(q).join(","))));
+  L.push("");L.push(["Member","KM","Sessions","Bonus","Total","Status"].map(q).join(","));
+  MEMBERS.forEach(m=>{const c=calc(m);L.push([m,c.km,c.ses,c.bonus,c.total,c.total>=GOAL?"PASS":"NOT YET"].map(q).join(","));});
+  L.push("");L.push(["Post date","Publisher","Platform","Source from","URL"].map(q).join(","));
+  S.posts.forEach(p=>L.push([p.date,p.publisher,p.platform,p.sourceFrom,p.url].map(q).join(",")));
+  L.push("");L.push(["Group session date","Activity","Members joined"].map(q).join(","));
+  (S.sessions||[]).forEach(g=>L.push([g.date,g.activity,g.members].map(q).join(",")));
+  dl(`StepUp15_${stamp()}.csv`,"﻿"+L.join("\r\n"),"text/csv;charset=utf-8");toast(t("t.exported"));});
+$("#btn-imp").addEventListener("click",()=>$("#file-imp").click());
+$("#file-imp").addEventListener("change",async e=>{
+  let added=0,bad=0;
+  for(const f of [...e.target.files]){
+    try{const d=JSON.parse(await f.text());if(!d||!d.logs){bad++;continue;}
+      Object.entries(d.logs).forEach(([m,rows])=>{
+        if(!MEMBERS.includes(m)||!Array.isArray(rows))return;
+        const seen=new Set(S.logs[m].map(r=>`${r.date}|${r.sport}|${r.km}|${r.min}|${r.bonus}`));
+        rows.forEach(r=>{const k=`${r.date}|${r.sport}|${r.km}|${r.min}|${r.bonus}`;
+          if(!seen.has(k)){S.logs[m].push(r);seen.add(k);added++;}});});
+      if(Array.isArray(d.posts)){const ids=new Set(S.posts.map(p=>p.id));
+        d.posts.forEach(p=>{if(!ids.has(p.id)){S.posts.push(p);ids.add(p.id);}});}
+      if(d.team)Object.assign(S.team,d.team);
+    }catch(err){bad++;}}
+  save();renderStatus();e.target.value="";
+  toast(`${t("t.merged")} ${added} ${t("t.records")}${bad?` · ${bad} ${t("t.bad")}`:""}`);});
+$("#btn-reset").addEventListener("click",()=>{
+  if(!confirm(t("t.confirm")))return;
+  MEMBERS.forEach(m=>S.logs[m]=[]);S.posts=[];S.sessions=[];S.team={};save();renderStatus();toast(t("t.cleared"));});
+
+applyLang();
+</script>
+</body>
+</html>
