@@ -203,6 +203,14 @@ main{max-width:1120px;margin:0 auto;padding:22px 16px 90px}
 .empty em{display:block;font-size:40px;font-style:normal;margin-bottom:10px;opacity:.45}
 
 /* VIRAL */
+.postgrid{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(310px,1fr))}
+.prow{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:12px;background:#f8fafd;border:1px solid var(--line);font-size:13px;min-width:0}
+.prow .pico{font-size:14px;flex:none;line-height:1}
+.prow .pmain{flex:1;min-width:0;display:flex;align-items:baseline;gap:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.prow .pplat{font-weight:800;color:var(--ink);flex:none}
+.prow .pmeta{color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis}
+.prow a.plink{color:var(--red);font-weight:700;font-size:12px;flex:none;text-decoration:none}
+.prow a.plink:hover{text-decoration:underline}
 .flow{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .fstep{border-radius:18px;padding:17px 18px;background:#f8fafd;border:1px solid var(--line);position:relative}
 .fstep .n{width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
@@ -233,6 +241,20 @@ main{max-width:1120px;margin:0 auto;padding:22px 16px 90px}
 .bg-blue{background:#e7f0ff;color:var(--blue)} .bg-green{background:#e4f7ee;color:var(--green)}
 .bg-yellow{background:#fff3df;color:#9a6508} .bg-red{background:#fdeaf0;color:var(--red)} .bg-black{background:#eceef3;color:var(--black)}
 
+#ovl{position:fixed;inset:0;z-index:300;background:rgba(14,20,35,.55);backdrop-filter:blur(3px);
+  display:none;align-items:center;justify-content:center;padding:20px}
+#ovl.on{display:flex;animation:fadein .16s ease both}
+@keyframes fadein{from{opacity:0}to{opacity:1}}
+.dlg{background:#fff;border-radius:22px;max-width:380px;width:100%;padding:26px 24px 20px;text-align:center;
+  box-shadow:0 24px 60px rgba(10,16,30,.3);animation:pop .2s cubic-bezier(.2,.8,.3,1.1) both}
+@keyframes pop{from{opacity:0;transform:scale(.92) translateY(10px)}to{opacity:1;transform:none}}
+.dlg .ic{font-size:34px;line-height:1;margin-bottom:12px}
+.dlg h4{margin:0 0 6px;font-size:18px;font-weight:900;letter-spacing:-.02em}
+.dlg p{margin:0 0 20px;font-size:13.5px;color:var(--muted);word-break:break-word}
+.dlg .acts{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dlg .acts .btn{padding:13px 10px;font-size:14.5px}
+.btn-danger{background:var(--red);color:#fff}
+.btn-danger:hover{filter:brightness(1.06)}
 #toast{position:fixed;left:50%;bottom:26px;transform:translate(-50%,16px);z-index:200;background:var(--ink);color:#fff;font-size:14px;font-weight:600;padding:13px 22px;border-radius:999px;box-shadow:0 12px 34px rgba(0,0,0,.26);opacity:0;pointer-events:none;transition:.26s;max-width:88vw;text-align:center}
 #toast.on{opacity:1;transform:translate(-50%,0)}
 footer{text-align:center;color:var(--muted);font-size:12.5px;padding:0 16px 36px}
@@ -366,7 +388,7 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:0 16px 36px
   </div>
 
   <div class="sec-h"><h2 data-i18n="v.list.title"></h2><span id="v-count"></span></div>
-  <div class="panel"><div class="log" id="postlog"></div></div>
+  <div class="panel"><div class="postgrid" id="postlog"></div></div>
 
 </section>
 
@@ -413,6 +435,11 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:0 16px 36px
 </section>
 </main>
 <footer data-i18n="footer"></footer>
+<div id="ovl"><div class="dlg" role="dialog" aria-modal="true">
+  <div class="ic" id="dlg-ic">🗑️</div>
+  <h4 id="dlg-title"></h4><p id="dlg-msg"></p>
+  <div class="acts"><button class="btn btn-o" id="dlg-no"></button><button class="btn btn-danger" id="dlg-yes"></button></div>
+</div></div>
 <div id="toast"></div>
 
 <script>
@@ -432,6 +459,7 @@ const SPORT_DEF=[
 const SESSION_SPORTS=["Cầu lông","Bóng đá","Pickleball"];
 const COLORS={blue:"#0b5ed7",red:"#e0144c",yellow:"#f5a623",green:"#00a05a",black:"#17181c"};
 const RINGC=["blue","black","red","yellow","green"];
+const PLAT={Facebook:"🔵",Instagram:"🟣",TikTok:"⚫",YouTube:"🔴",LinkedIn:"🔷",Threads:"⚪",X:"✖️",Pinterest:"📌",Behance:"🅱️",Zalo:"🔹"};
 const WR=[[500,500],[400,400],[300,300],[200,200],[100,100]];
 const BFP=[[78,780],[65,650],[52,520],[26,260],[13,130]];
 const KEY="stepup15.v1", GOAL=300;
@@ -510,7 +538,8 @@ vi:{
  "t.saved":"Đã lưu","t.added":"Đã ghi nhận","t.deleted":"Đã xóa","t.updated":"Đã cập nhật",
  "t.pickDate":"Chọn ngày tập","t.minKm":"Cần tối thiểu 1 km","t.minMin":"Buổi tập cần tối thiểu 30 phút",
  "t.needBonus":"Nhập số điểm thử thách","t.blocked":"Trình duyệt đang chặn lưu dữ liệu",
- "t.confirmDel":"Xóa buổi tập ngày","t.confirmDelPost":"Xóa bài đăng này?","t.confirmDelGroup":"Xóa buổi tập chung này?",
+ "dlg.yes":"Xóa","dlg.no":"Giữ lại","dlg.delTitle":"Xóa buổi tập này?",
+ "dlg.delPostTitle":"Xóa bài đăng này?","dlg.delGroupTitle":"Xóa buổi tập chung này?",
  goal:"mục tiêu",reach:"Đã đạt 300 điểm — nhận T-Shirt 🎽",left1:"Còn",left2:"điểm nữa là chạm mốc",
  "nx.km":"Còn {n} km để lên Lv{l}","nx.ses":"Còn {n} buổi để lên Lv{l}","nx.max":"Đã đạt Lv5 🏆",
  "p.bonusNote":"Điểm thưởng từ hoạt động bổ sung","p.pass":"ĐẠT 300đ","p.nodata":"chưa có dữ liệu"
@@ -587,7 +616,8 @@ en:{
  "t.saved":"Saved","t.added":"Logged","t.deleted":"Deleted","t.updated":"Updated",
  "t.pickDate":"Pick a date","t.minKm":"At least 1 km required","t.minMin":"A session needs at least 30 minutes",
  "t.needBonus":"Enter the bonus points","t.blocked":"Browser is blocking local storage",
- "t.confirmDel":"Delete the session on","t.confirmDelPost":"Delete this post?","t.confirmDelGroup":"Delete this group session?",
+ "dlg.yes":"Delete","dlg.no":"Keep","dlg.delTitle":"Delete this session?",
+ "dlg.delPostTitle":"Delete this post?","dlg.delGroupTitle":"Delete this group session?",
  goal:"of goal",reach:"Goal reached — T-Shirt unlocked 🎽",left1:"",left2:"points to go",
  "nx.km":"{n} km to reach Lv{l}","nx.ses":"{n} sessions to reach Lv{l}","nx.max":"Lv5 reached 🏆",
  "p.bonusNote":"Bonus points from extra activities","p.pass":"300 PTS","p.nodata":"no data yet"
@@ -618,6 +648,24 @@ const fmtDate=d=>{const p=String(d||"").split("-");return p.length===3?`${p[2]}/
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
 const shortName=n=>String(n).trim().split(/\s+/).slice(-2).join(" ");
 const initials=n=>{const w=String(n).trim().split(/\s+/);return ((w[0]||"")[0]+(w[w.length-1]||"")[0]).toUpperCase();};
+let dlgResolve=null;
+function confirmBox(title,msg){
+  $("#dlg-title").textContent=title;
+  $("#dlg-msg").textContent=msg||"";
+  $("#dlg-yes").textContent=t("dlg.yes");
+  $("#dlg-no").textContent=t("dlg.no");
+  $("#ovl").classList.add("on");
+  setTimeout(()=>$("#dlg-no").focus(),30);
+  return new Promise(res=>{dlgResolve=res;});
+}
+function closeDlg(v){$("#ovl").classList.remove("on");if(dlgResolve){dlgResolve(v);dlgResolve=null;}}
+document.addEventListener("click",e=>{
+  if(e.target.id==="dlg-yes")closeDlg(true);
+  else if(e.target.id==="dlg-no"||e.target.id==="ovl")closeDlg(false);});
+document.addEventListener("keydown",e=>{
+  if(!$("#ovl").classList.contains("on"))return;
+  if(e.key==="Escape")closeDlg(false);
+  if(e.key==="Enter"&&document.activeElement?.id==="dlg-yes")closeDlg(true);});
 let tmr; function toast(m){const el=$("#toast");el.textContent=m;el.classList.add("on");clearTimeout(tmr);tmr=setTimeout(()=>el.classList.remove("on"),2600);}
 function lvOf(v,tb){const h=tb.find(r=>v>=r[0]);return h?{lv:tb.length-tb.indexOf(h),pts:h[1]}:{lv:0,pts:0};}
 function nextStep(v,tb){const asc=[...tb].reverse(),up=asc.find(r=>r[0]>v);
@@ -833,7 +881,8 @@ function renderLog(){
     await push({action:"update",id,patch});}));
   $$("#log .dl").forEach(b=>b.addEventListener("click",async()=>{
     const i=+b.dataset.i,id=b.dataset.id;
-    if(!confirm(t("t.confirmDel")+" "+fmtDate(S.logs[name][i].date)+"?"))return;
+    const row=S.logs[name][i],d=sportDef(row.sport);
+    if(!await confirmBox(t("dlg.delTitle"),`${d.icon} ${t(d.k)} · ${fmtDate(row.date)} · ${row.km?nf(row.km)+" "+t("u.km"):row.min?nf(row.min)+" "+t("u.min"):"+"+nf(row.bonus)+t("u.pt")}`))return;
     S.logs[name].splice(i,1);save();EDITING=null;renderAll();toast(t("t.deleted"));
     await push({action:"delete",id});}));
 }
@@ -927,16 +976,18 @@ function renderViral(){
   $("#v-src").textContent=contribMembers+"/10";
   $("#v-photos").textContent=nf(sourced.reduce((a,b)=>a+b.n,0));
   $("#v-count").textContent=S.posts.length+" "+t("v.posts");
-  const PLAT={Facebook:"🔵",Instagram:"🟣",TikTok:"⚫",YouTube:"🔴",LinkedIn:"🔷",Threads:"⚪",X:"✖️",Pinterest:"📌",Behance:"🅱️",Zalo:"🔹"};
   const posts=[...S.posts].sort((a,b)=>(a.date<b.date?1:-1));
   $("#postlog").innerHTML=posts.length?posts.map(p=>
-    `<div class="item" style="color:${COLORS.red}"><span class="dot"></span>
-      <div class="main"><b style="color:var(--ink)">${PLAT[p.platform]||"📣"} ${esc(p.platform)} · ${esc(p.publisher)}</b>
-      <span>${fmtDate(p.date)} · 📷 ${esc(p.sourceFrom||"—")}${p.url?` · <a href="${esc(p.url)}" target="_blank" rel="noopener" style="color:${COLORS.red}">link</a>`:""}</span></div>
+    `<div class="prow">
+      <span class="pico">${PLAT[p.platform]||"📣"}</span>
+      <span class="pmain"><span class="pplat">${esc(p.platform)}</span>
+        <span class="pmeta">${fmtDate(p.date)} · ${esc(shortName(p.publisher))} · 📷 ${esc(shortName(p.sourceFrom||"—"))}</span></span>
+      ${p.url?`<a class="plink" href="${esc(p.url)}" target="_blank" rel="noopener">link</a>`:""}
       <button class="iconbtn dl pdel" data-id="${esc(p.id)}">✕</button></div>`).join("")
     :`<div class="empty"><em>📣</em>${t("v.empty")}</div>`;
   $$("#postlog .pdel").forEach(b=>b.addEventListener("click",async()=>{
-    if(!confirm(t("t.confirmDelPost")))return;
+    const po=S.posts.find(x=>x.id===b.dataset.id)||{};
+    if(!await confirmBox(t("dlg.delPostTitle"),`${PLAT[po.platform]||"📣"} ${po.platform||""} · ${fmtDate(po.date)} · ${shortName(po.publisher||"")}`))return;
     S.posts=S.posts.filter(p=>p.id!==b.dataset.id);save();renderAll();toast(t("t.deleted"));
     await push({action:"post:delete",id:b.dataset.id});}));
 
@@ -977,7 +1028,8 @@ function renderGroup(){
       ${big?`<span class="pill win">5+</span>`:""}
       <button class="iconbtn dl gdel" data-id="${esc(r.id)}">✕</button></div>`;}).join("");
   $$("#grouplog .gdel").forEach(b=>b.addEventListener("click",async()=>{
-    if(!confirm(t("t.confirmDelGroup")))return;
+    const gr=S.sessions.find(x=>x.id===b.dataset.id)||{};
+    if(!await confirmBox(t("dlg.delGroupTitle"),`${fmtDate(gr.date)} · ${nf(gr.members||0)} ${t("group.people")}`))return;
     S.sessions=S.sessions.filter(x=>x.id!==b.dataset.id);save();renderAll();toast(t("t.deleted"));
     await push({action:"group:delete",id:b.dataset.id});}));
 }
