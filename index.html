@@ -357,7 +357,7 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:0 16px 36px
       <div class="fld"><label data-i18n="v.publisher"></label><select id="p-publisher"></select></div>
       <div class="fld"><label data-i18n="v.date"></label><input type="date" id="p-date"></div>
       <div class="fld"><label data-i18n="v.platform"></label>
-        <select id="p-platform"><option>Facebook</option><option>Instagram</option><option>TikTok</option><option>YouTube</option><option>LinkedIn</option><option>Threads</option><option>Zalo</option></select></div>
+        <select id="p-platform"><option>Facebook</option><option>Instagram</option><option>TikTok</option><option>YouTube</option><option>LinkedIn</option><option>Threads</option><option>X</option><option>Pinterest</option><option>Behance</option><option>Zalo</option></select></div>
       <div class="fld"><label data-i18n="v.source"></label><select id="p-source"></select></div>
       <div class="fld" style="flex:2"><label data-i18n="v.url"></label><input type="url" id="p-url" placeholder="https://..."></div>
     </div>
@@ -927,7 +927,7 @@ function renderViral(){
   $("#v-src").textContent=contribMembers+"/10";
   $("#v-photos").textContent=nf(sourced.reduce((a,b)=>a+b.n,0));
   $("#v-count").textContent=S.posts.length+" "+t("v.posts");
-  const PLAT={Facebook:"🔵",Instagram:"🟣",TikTok:"⚫",YouTube:"🔴",LinkedIn:"🔷",Threads:"⚪",Zalo:"🔹"};
+  const PLAT={Facebook:"🔵",Instagram:"🟣",TikTok:"⚫",YouTube:"🔴",LinkedIn:"🔷",Threads:"⚪",X:"✖️",Pinterest:"📌",Behance:"🅱️",Zalo:"🔹"};
   const posts=[...S.posts].sort((a,b)=>(a.date<b.date?1:-1));
   $("#postlog").innerHTML=posts.length?posts.map(p=>
     `<div class="item" style="color:${COLORS.red}"><span class="dot"></span>
