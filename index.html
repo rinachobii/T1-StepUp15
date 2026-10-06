@@ -5,12 +5,12 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Step Up 15+</title>
 <style>
-@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Regular.woff2) format('woff2');font-weight:400;font-display:swap}
-@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Medium.woff2) format('woff2');font-weight:500;font-display:swap}
-@font-face{font-family:Metropolis;src:url(fonts/Metropolis-SemiBold.woff2) format('woff2');font-weight:600;font-display:swap}
-@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Bold.woff2) format('woff2');font-weight:700;font-display:swap}
-@font-face{font-family:Metropolis;src:url(fonts/Metropolis-ExtraBold.woff2) format('woff2');font-weight:800;font-display:swap}
-@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Black.woff2) format('woff2');font-weight:900;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Regular.woff2) format('woff2'),url(Metropolis-Regular.woff2) format('woff2');font-weight:400;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Medium.woff2) format('woff2'),url(Metropolis-Medium.woff2) format('woff2');font-weight:500;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-SemiBold.woff2) format('woff2'),url(Metropolis-SemiBold.woff2) format('woff2');font-weight:600;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Bold.woff2) format('woff2'),url(Metropolis-Bold.woff2) format('woff2');font-weight:700;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-ExtraBold.woff2) format('woff2'),url(Metropolis-ExtraBold.woff2) format('woff2');font-weight:800;font-display:swap}
+@font-face{font-family:Metropolis;src:url(fonts/Metropolis-Black.woff2) format('woff2'),url(Metropolis-Black.woff2) format('woff2');font-weight:900;font-display:swap}
 :root{
   --blue:#0b5ed7; --black:#17181c; --red:#e0144c; --yellow:#f5a623; --green:#00a05a;
   --ink:#17181c; --muted:#767d8c; --line:#e8ecf3; --bg:#f6f8fc; --card:#fff;
@@ -357,7 +357,7 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:0 16px 36px
       <div class="fld"><label data-i18n="v.publisher"></label><select id="p-publisher"></select></div>
       <div class="fld"><label data-i18n="v.date"></label><input type="date" id="p-date"></div>
       <div class="fld"><label data-i18n="v.platform"></label>
-        <select id="p-platform"><option>Facebook</option><option>Instagram</option><option>TikTok</option><option>LinkedIn</option><option>Threads</option><option>Zalo</option></select></div>
+        <select id="p-platform"><option>Facebook</option><option>Instagram</option><option>TikTok</option><option>YouTube</option><option>LinkedIn</option><option>Threads</option><option>Zalo</option></select></div>
       <div class="fld"><label data-i18n="v.source"></label><select id="p-source"></select></div>
       <div class="fld" style="flex:2"><label data-i18n="v.url"></label><input type="url" id="p-url" placeholder="https://..."></div>
     </div>
@@ -927,7 +927,7 @@ function renderViral(){
   $("#v-src").textContent=contribMembers+"/10";
   $("#v-photos").textContent=nf(sourced.reduce((a,b)=>a+b.n,0));
   $("#v-count").textContent=S.posts.length+" "+t("v.posts");
-  const PLAT={Facebook:"🔵",Instagram:"🟣",TikTok:"⚫",LinkedIn:"🔷",Threads:"⚪",Zalo:"🔹"};
+  const PLAT={Facebook:"🔵",Instagram:"🟣",TikTok:"⚫",YouTube:"🔴",LinkedIn:"🔷",Threads:"⚪",Zalo:"🔹"};
   const posts=[...S.posts].sort((a,b)=>(a.date<b.date?1:-1));
   $("#postlog").innerHTML=posts.length?posts.map(p=>
     `<div class="item" style="color:${COLORS.red}"><span class="dot"></span>
