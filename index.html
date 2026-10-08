@@ -203,14 +203,24 @@ main{max-width:1120px;margin:0 auto;padding:22px 16px 90px}
 .empty em{display:block;font-size:40px;font-style:normal;margin-bottom:10px;opacity:.45}
 
 /* VIRAL */
-.postgrid{display:grid;gap:8px;grid-template-columns:repeat(auto-fill,minmax(310px,1fr))}
-.prow{display:flex;align-items:center;gap:9px;padding:9px 12px;border-radius:12px;background:#f8fafd;border:1px solid var(--line);font-size:13px;min-width:0}
-.prow .pico{font-size:14px;flex:none;line-height:1}
-.prow .pmain{flex:1;min-width:0;display:flex;align-items:baseline;gap:7px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.prow .pplat{font-weight:800;color:var(--ink);flex:none}
-.prow .pmeta{color:var(--muted);font-size:12px;overflow:hidden;text-overflow:ellipsis}
-.prow a.plink{color:var(--red);font-weight:700;font-size:12px;flex:none;text-decoration:none}
-.prow a.plink:hover{text-decoration:underline}
+.psum{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:16px}
+.psum span{background:#f1f4f9;border-radius:999px;padding:5px 11px;font-size:12px;font-weight:700;color:var(--muted)}
+.psum span b{color:var(--ink)}
+.pday{margin-bottom:14px}
+.pday>h4{margin:0 0 8px;font-size:12px;font-weight:800;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);
+  display:flex;align-items:center;gap:8px}
+.pday>h4::after{content:"";flex:1;height:1px;background:var(--line)}
+.pchips{display:flex;flex-wrap:wrap;gap:6px}
+.pchip{display:inline-flex;align-items:center;gap:5px;background:#f8fafd;border:1px solid var(--line);border-radius:999px;
+  padding:5px 7px 5px 10px;font-size:12.5px;font-weight:700;color:var(--ink);text-decoration:none;transition:.15s;max-width:100%}
+.pchip:hover{background:#fff;border-color:#c9d4e6;box-shadow:0 3px 10px rgba(20,30,60,.08)}
+.pchip em{font-style:normal;font-size:12px;line-height:1}
+.pchip .who{font-weight:600;color:var(--muted);font-size:11.5px;max-width:84px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.pchip .x{border:0;background:none;cursor:pointer;color:#c3cad8;font-size:12px;line-height:1;padding:2px 3px;border-radius:50%}
+.pchip .x:hover{color:var(--red);background:#fdeaf0}
+@media (max-width:620px){.pchip .who{display:none}.pchip{padding:5px 6px 5px 9px;font-size:12px}.psum span{font-size:11.5px;padding:4px 9px}}
+.pmore{border:0;background:#eef1f7;color:var(--ink);font-size:12.5px;font-weight:700;border-radius:999px;padding:8px 16px;cursor:pointer;font-family:inherit}
+.pmore:hover{background:#e2e7f0}
 .flow{display:grid;gap:12px;grid-template-columns:repeat(auto-fit,minmax(220px,1fr))}
 .fstep{border-radius:18px;padding:17px 18px;background:#f8fafd;border:1px solid var(--line);position:relative}
 .fstep .n{width:26px;height:26px;border-radius:50%;background:var(--ink);color:#fff;font-size:12px;font-weight:800;display:flex;align-items:center;justify-content:center;margin-bottom:10px}
@@ -388,7 +398,7 @@ footer{text-align:center;color:var(--muted);font-size:12.5px;padding:0 16px 36px
   </div>
 
   <div class="sec-h"><h2 data-i18n="v.list.title"></h2><span id="v-count"></span></div>
-  <div class="panel"><div class="postgrid" id="postlog"></div></div>
+  <div class="panel"><div class="psum" id="postsum"></div><div id="postlog"></div></div>
 
 </section>
 
@@ -530,7 +540,7 @@ vi:{
  "v.publisher":"Người đăng","v.date":"Ngày đăng","v.platform":"Nền tảng",
  "v.source":"Nguồn ảnh của ai","v.url":"Link bài đăng","v.submit":"Ghi nhận bài đăng",
  "v.tip":"Tiêu chí Best Viral Team: nhiều bài hợp lệ nhất · đồng hạng thì team có nhiều thành viên khác nhau đóng góp ảnh hơn sẽ thắng.",
- "v.list.title":"Bài đã đăng","v.posts":"bài","v.empty":"Chưa có bài đăng nào.",
+ "v.list.title":"Bài đã đăng","v.posts":"bài","v.more":"Xem thêm","v.less":"Thu gọn","v.empty":"Chưa có bài đăng nào.",
  "v.needUrl":"Dán link bài đăng","v.needFolder":"Chưa có link kho ảnh chung",
  footer:"Step Up 15+ · 05/10/2026 – 31/12/2026",
  "sync.cloud":"Đang lưu trên Google Sheets","sync.local":"Đang lưu trên máy này","sync.err":"Mất kết nối — tạm lưu trên máy",
@@ -608,7 +618,7 @@ en:{
  "v.publisher":"Published by","v.date":"Publish date","v.platform":"Platform",
  "v.source":"Photo source from","v.url":"Post link","v.submit":"Log this post",
  "v.tip":"Best Viral Team criteria: most valid posts · ties go to the team whose posts come from more different contributors.",
- "v.list.title":"Published posts","v.posts":"posts","v.empty":"No posts logged yet.",
+ "v.list.title":"Published posts","v.posts":"posts","v.more":"Show more","v.less":"Show less","v.empty":"No posts logged yet.",
  "v.needUrl":"Paste the post link","v.needFolder":"No shared folder link yet",
  footer:"Step Up 15+ · 05 Oct 2026 – 31 Dec 2026",
  "sync.cloud":"Saving to Google Sheets","sync.local":"Saving on this device","sync.err":"Disconnected — saved locally",
@@ -646,6 +656,14 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const nf=n=>Number(n||0).toLocaleString(LANG==="vi"?"vi-VN":"en-US",{maximumFractionDigits:1});
 const fmtDate=d=>{const p=String(d||"").split("-");return p.length===3?`${p[2]}/${p[1]}`:d;};
 const uid=()=>Date.now().toString(36)+Math.random().toString(36).slice(2,8);
+const createdAt=o=>{
+  if(o.ts)return Number(o.ts);
+  const t=parseInt(String(o.id||"").slice(0,8),36);
+  return isNaN(t)?0:t;};
+const byDateDesc=(a,b)=>{
+  const da=String(a.date||""),db=String(b.date||"");
+  if(da!==db)return da<db?1:-1;
+  return createdAt(b)-createdAt(a);};
 const shortName=n=>String(n).trim().split(/\s+/).slice(-2).join(" ");
 const initials=n=>{const w=String(n).trim().split(/\s+/);return ((w[0]||"")[0]+(w[w.length-1]||"")[0]).toUpperCase();};
 let dlgResolve=null;
@@ -769,7 +787,7 @@ $("#p-source").innerHTML=opts;
 $("#p-publisher").innerHTML=PUBLISHERS.map(m=>`<option value="${esc(m)}">${esc(m)}</option>`).join("");
 $("#sel-member").addEventListener("change",()=>renderAll());
 ["#f-filter","#f-sort"].forEach(s=>$(s).addEventListener("change",renderLog));
-let SPORT="Đi bộ/Chạy bộ",EDITING=null;
+let SPORT="Đi bộ/Chạy bộ",EDITING=null,POSTS_ALL=false;
 function syncForm(){
   const v=$("#f-val");
   if(SPORT==="Đi bộ/Chạy bộ"){$("#l-val").textContent=t("f.km");v.step="0.1";v.placeholder=LANG==="vi"?"VD: 5.2":"e.g. 5.2";$("#tip").innerHTML=t("tip.run");}
@@ -825,7 +843,7 @@ function renderLog(){
   const name=$("#sel-member").value,fs=$("#f-filter").value,so=$("#f-sort").value;
   let rows=(S.logs[name]||[]).map((r,i)=>({...r,_i:i}));
   if(fs)rows=rows.filter(r=>r.sport===fs);
-  rows.sort((a,b)=>so==="asc"?(a.date>b.date?1:-1):(a.date<b.date?1:-1));
+  rows.sort((a,b)=>so==="asc"?-byDateDesc(a,b):byDateDesc(a,b));
   $("#log-count").textContent=(S.logs[name]||[]).length+" "+t("log.records");
   const box=$("#log");
   if(!rows.length){box.innerHTML=`<div class="empty"><em>🏅</em>${t("log.empty")}</div>`;return;}
@@ -976,16 +994,33 @@ function renderViral(){
   $("#v-src").textContent=contribMembers+"/10";
   $("#v-photos").textContent=nf(sourced.reduce((a,b)=>a+b.n,0));
   $("#v-count").textContent=S.posts.length+" "+t("v.posts");
-  const posts=[...S.posts].sort((a,b)=>(a.date<b.date?1:-1));
-  $("#postlog").innerHTML=posts.length?posts.map(p=>
-    `<div class="prow">
-      <span class="pico">${PLAT[p.platform]||"📣"}</span>
-      <span class="pmain"><span class="pplat">${esc(p.platform)}</span>
-        <span class="pmeta">${fmtDate(p.date)} · ${esc(shortName(p.publisher))} · 📷 ${esc(shortName(p.sourceFrom||"—"))}</span></span>
-      ${p.url?`<a class="plink" href="${esc(p.url)}" target="_blank" rel="noopener">link</a>`:""}
-      <button class="iconbtn dl pdel" data-id="${esc(p.id)}">✕</button></div>`).join("")
+  const posts=[...S.posts].sort(byDateDesc);
+  // summary chips per platform
+  const tally={};posts.forEach(p=>{tally[p.platform]=(tally[p.platform]||0)+1;});
+  $("#postsum").innerHTML=Object.entries(tally).sort((a,b)=>b[1]-a[1])
+    .map(([k,v])=>`<span>${PLAT[k]||"📣"} ${esc(k)} <b>${v}</b></span>`).join("");
+  // group by day, newest day first
+  const days=[];posts.forEach(p=>{
+    const d=days.find(x=>x.date===p.date);
+    if(d)d.items.push(p);else days.push({date:p.date,items:[p]});});
+  const shownDays=POSTS_ALL?days:days.slice(0,2);
+  const hidden=days.slice(shownDays.length).reduce((a,d)=>a+d.items.length,0);
+  $("#postlog").innerHTML=posts.length?shownDays.map(d=>
+    `<div class="pday"><h4>${fmtDate(d.date)} · ${d.items.length} ${esc(t("v.posts"))}</h4>
+      <div class="pchips">${d.items.map(p=>{
+        const tip=`${p.platform} · ${t("v.publisher")}: ${p.publisher} · ${t("v.source")}: ${p.sourceFrom||"—"}`;
+        return `<${p.url?"a":"span"} class="pchip"${p.url?` href="${esc(p.url)}" target="_blank" rel="noopener"`:""} title="${esc(tip)}">
+          <em>${PLAT[p.platform]||"📣"}</em>${esc(p.platform)}
+          <span class="who">${esc(shortName(p.publisher||""))}</span>
+          <button class="x pdel" data-id="${esc(p.id)}" aria-label="delete">✕</button></${p.url?"a":"span"}>`;}).join("")}</div></div>`).join("")
+    +(hidden?`<button class="pmore" id="btn-more">${esc(t("v.more"))} (${hidden})</button>`:
+      (POSTS_ALL&&days.length>2?`<button class="pmore" id="btn-less">${esc(t("v.less"))}</button>`:""))
     :`<div class="empty"><em>📣</em>${t("v.empty")}</div>`;
-  $$("#postlog .pdel").forEach(b=>b.addEventListener("click",async()=>{
+  const more=$("#btn-more"),less=$("#btn-less");
+  if(more)more.addEventListener("click",()=>{POSTS_ALL=true;renderViral();});
+  if(less)less.addEventListener("click",()=>{POSTS_ALL=false;renderViral();});
+  $$("#postlog .pdel").forEach(b=>b.addEventListener("click",async e=>{
+    e.preventDefault();e.stopPropagation();
     const po=S.posts.find(x=>x.id===b.dataset.id)||{};
     if(!await confirmBox(t("dlg.delPostTitle"),`${PLAT[po.platform]||"📣"} ${po.platform||""} · ${fmtDate(po.date)} · ${shortName(po.publisher||"")}`))return;
     S.posts=S.posts.filter(p=>p.id!==b.dataset.id);save();renderAll();toast(t("t.deleted"));
@@ -1014,7 +1049,7 @@ function renderGroup(){
   $("#g-five").textContent=g.five;
   $("#g-count").textContent=g.n;
   $("#g-listcount").textContent=g.n+" "+t("group.sessions");
-  const rows=[...S.sessions].sort((a,b)=>(a.date<b.date?1:-1));
+  const rows=[...S.sessions].sort(byDateDesc);
   const box=$("#grouplog");
   if(!rows.length){box.innerHTML=`<div class="empty"><em>👥</em>${esc(t("group.empty"))}</div>`;return;}
   box.innerHTML=rows.map(r=>{
